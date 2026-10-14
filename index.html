@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png"><link rel="icon" type="image/png" sizes="192x192" href="icon-192.png"><link rel="icon" type="image/png" sizes="32x32" href="data:image/png;base64,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"><meta name="theme-color" content="#d6001c"><meta name="apple-mobile-web-app-title" content="Promoções"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
 <title>Cadastro de Promoções</title>
 <style>
 :root{
@@ -516,10 +517,120 @@ html.app-teste .topbar{top:34px}
 html.app-teste .auth-bg::before{content:"AMBIENTE DE TESTE";position:fixed;top:0;left:0;right:0;background:#ffd400;color:#3d2e00;text-align:center;font:700 14px/32px "Segoe UI",sans-serif;letter-spacing:.12em;z-index:2}
 .manut .row{align-items:flex-end}
 
+/* ===== Projeto 2 · TESTE — otimização para celular ===== */
+@media (max-width:700px){
+  html,body{overflow-x:hidden}
+  /* corrige sobreposição: tabelas 'altas' tinham limite de 640px e o conteúdo vazava por cima do que vem depois */
+  .table-wrap,.table-wrap.tall{max-height:none!important;height:auto!important}
+  /* faixa de teste em uma linha */
+  .teste-banner{padding:4px 10px;font-size:11.5px;gap:8px;flex-wrap:nowrap;justify-content:space-between}
+  .teste-banner .tb-txt{display:none}
+  .teste-banner .btn.sm{min-height:26px;padding:2px 8px;font-size:11px}
+  /* topo compacto: logo + usuário + ações numa linha; menu em faixa rolável */
+  .topbar{flex-wrap:wrap;padding:8px 12px 0;gap:6px 8px;position:sticky;top:0;z-index:30}
+  .topbar .brand-logo{height:28px}
+  #user-badge{display:none!important}
+  #user-menu{margin-left:auto}
+  .topbar{flex-wrap:wrap}.topbar>*:not(.nav){flex:none}
+  #user-menu{display:flex;gap:4px}
+  #user-menu .btn.sm{min-height:30px;padding:2px 8px;font-size:12px}
+  .nav{order:3;width:100%;flex-wrap:nowrap;overflow-x:auto;gap:4px;padding:4px 0 8px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .nav::-webkit-scrollbar{display:none}
+  .nav button{flex:none;padding:8px 14px;font-size:14px;border-radius:999px}
+  /* boas-vindas some (o menu já leva às solicitações) */
+  .welcome{display:none}
+  main{padding:10px 10px calc(96px + env(safe-area-inset-bottom,0px))}
+  .card{padding:12px 12px;border-radius:12px}
+  .card-head p.muted{font-size:13px}
+  /* etapas sem cortar o nome */
+  .stepper button>span:last-child{white-space:normal;overflow:visible;font-size:11px;line-height:1.15}
+  .stepper button{padding:6px 2px 7px;min-height:56px}
+  /* rodapé das etapas fixo, com área segura do iPhone */
+  .step-footer{position:fixed;left:0;right:0;bottom:0;z-index:25;padding:8px 12px calc(8px + env(safe-area-inset-bottom,0px));background:rgba(255,255,255,.96);backdrop-filter:blur(8px);box-shadow:0 -6px 18px -12px rgba(0,0,0,.35);align-items:center}
+  .step-footer #step-hint{display:none}
+  .step-footer .btn{min-height:44px}
+  .step-footer .btn.primary{padding:0 22px}
+  /* etapa 1: nada maior que a tela */
+  .stage-list li,.stage-list li *{max-width:100%}
+  .stage-list .btn,.stage-box .btn{white-space:normal;height:auto;text-align:left}
+  /* etapa 2: catálogo em cartões compactos */
+  table.t.catalog tbody tr{display:grid;grid-template-columns:48px 1fr;column-gap:10px;row-gap:0;padding:8px 10px;align-items:center}
+  table.t.catalog td{padding:0;display:block;text-align:left!important}
+  table.t.catalog td::before{display:none!important}
+  table.t.catalog td:nth-child(1){grid-row:1/span 3;align-self:center}
+  table.t.catalog td:nth-child(3){grid-column:2;grid-row:1;font-weight:600;font-size:14px;line-height:1.25}
+  table.t.catalog td:nth-child(2){grid-column:2;grid-row:3;font-size:11.5px;color:var(--muted)}
+  table.t.catalog td:nth-child(4),table.t.catalog td:nth-child(5),table.t.catalog td:nth-child(7){grid-column:2;grid-row:2;display:inline;font-size:12px;color:var(--muted)}
+  table.t.catalog tr>td:nth-child(4),table.t.catalog tr>td:nth-child(5),table.t.catalog tr>td:nth-child(7){display:none}
+  table.t.catalog td:nth-child(6),table.t.catalog td:nth-child(8){display:none}
+  table.t.catalog .meta-m{grid-column:2;grid-row:2;font-size:12px;color:var(--muted);display:block}
+  table.t.catalog .sq-btn{width:40px;height:40px;font-size:22px}
+  table.t.catalog.lim tbody tr:nth-child(n+31){display:none}
+  .cat-more{width:100%;justify-content:center;margin-top:4px}
+  /* etapa 3: grupos de preço confortáveis */
+  .pg-fields{gap:8px!important}
+  /* tabelas de revisão mais enxutas */
+  table.t:not(.catalog) td{font-size:13px;padding:2px 0}
+  table.t:not(.catalog) tbody tr{padding:6px 10px}
+  /* janelas (confirmar/enviar) ocupam a largura */
+  .modal{width:calc(100vw - 16px)!important;max-width:none}
+  .modal .mfoot .btn,.modal-foot .btn{flex:1 1 auto;justify-content:center;min-height:44px}
+  /* toques maiores */
+  .btn{min-height:42px}
+  .chip{font-size:12px}
+}
+@media (max-width:380px){.nav button{padding:7px 11px;font-size:13px}#user-badge{max-width:38vw}}
+/* ===== letras menores no celular (campos de digitação ficam em 16px para o iPhone não dar zoom) ===== */
+@media (max-width:700px){
+  body{font-size:13.5px}
+  h1{font-size:16.5px} h2{font-size:15px} h3{font-size:14px}
+  .muted,.small,.hint,.pg-msg,.card-head p.muted{font-size:12px}
+  label,.field label,.lbl{font-size:12px}
+  .btn{font-size:13.5px;min-height:40px}
+  .btn.sm{font-size:12px;min-height:32px}
+  .nav button{font-size:13px;padding:7px 12px}
+  #user-menu .btn.sm{font-size:11.5px}
+  .stepper button>span:last-child{font-size:10.5px}
+  .stepper .num{width:22px;height:22px;font-size:11px}
+  .stat b{font-size:14px}.stat span{font-size:10.5px}
+  input[type=text],input[type=search],input[type=date],input[type=number],input[type=password],select,textarea{min-height:40px}
+  .pg-fields input,.bulk-strip input{height:40px;min-height:40px;line-height:38px}
+  table.t.catalog td:nth-child(3){font-size:13px}
+  table.t.catalog .meta-m{font-size:11px}
+  table.t.catalog td:nth-child(2){font-size:10.5px}
+  table.t.catalog .sq-btn{width:36px;height:36px;font-size:20px}
+  table.t:not(.catalog) td{font-size:12px}
+  table.t td[data-label]::before{font-size:11px}
+  .chip{font-size:11px}
+  .alert{font-size:12.5px}
+  .send-box{padding:14px}.send-box h2,.send-box b{font-size:15px}
+  .btn.send-big{font-size:15px;min-height:46px}
+  .step-footer .btn{min-height:42px;font-size:14px}
+  .modal h2,.modal .mhead{font-size:15px}.modal .mbody{font-size:13px}
+  .auth-split h1{font-size:24px}.auth-sub{font-size:13px}
+}
+@media (max-width:700px){
+  .auth-card .auth-sub,.auth-split .auth-sub{font-size:13.5px!important}
+  .auth-card label,.auth-split label{font-size:12.5px!important}
+  .auth-card h1,.auth-split h1{font-size:22px!important}
+  .auth-card .auth-btn,.auth-split .auth-btn{font-size:15px!important;min-height:44px!important;height:auto!important}
+  .auth-card .auth-eyebrow{font-size:11px!important}
+  .auth-card .auth-lock{font-size:12px!important}
+  .auth-main{padding:30px 22px 20px!important}
+}
+/* pesquisa em Minhas solicitações */
+.minha-busca{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:4px 0 12px}
+.minha-busca input{flex:1 1 320px;max-width:520px}
+@media (max-width:700px){.minha-busca input{flex:1 1 100%;max-width:none}}
+/* Ver solicitação */
+.ver-sol .vs-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.ver-sol h3{font-size:15px;margin:6px 0 8px}
+.ver-sol .table-wrap{max-height:340px}
+
 </style>
 </head>
 <body>
-<script>window.APP_PROJETO = 'Projeto 2 · Supabase'; window.APP_TESTE = false; window.APP_MODE = 'supabase'; window.SUPA_URL = 'https://cnizuofynsncupgmjyej.supabase.co'; window.SUPA_KEY = 'sb_publishable_AGruF33Wg2CwB3s5Na9TiA_FV98BP3A';</script>
+<script>window.APP_PROJETO = 'Projeto 2 · Supabase'; window.APP_TESTE = false; window.APP_MODE = 'supabase'; window.APP_NOVIDADES = true; window.APP_VERSAO = '1.0'; window.APP_DEV = 'Welder Silva'; window.SUPA_URL = 'https://cnizuofynsncupgmjyej.supabase.co'; window.SUPA_KEY = 'sb_publishable_AGruF33Wg2CwB3s5Na9TiA_FV98BP3A';</script>
 <a class="skip" href="#main">Pular para o conteúdo</a>
 <header class="topbar">
   <div class="brand">Cadastro de Promoções<small>Clientes → Produtos → Condições → Revisão</small></div>
@@ -2037,7 +2148,7 @@ async function buildXlsx(file) {
 const REEMB_PADRAO = {"versao":1,"origem":"Tabela de investimentos enviada em 08/10/2026","colunasExtras":["TTV GYN","TTV INT GO","TTV TO","TTC GYN","TTC INT GO","TTC TO","MKP GYN","MKP INT GO","MKP TO"],"grupos":[{"n":1,"categoria":"REFRIGERANTES","produto":"Coca-Cola Original e Zero","embalagem":"2L","reembolso":0.1,"extras":{"TTV GYN":9.97,"TTV INT GO":10.07,"TTV TO":10.37,"TTC GYN":11.19,"TTC INT GO":11.49,"TTC TO":12.19,"MKP GYN":0.13,"MKP INT GO":0.15,"MKP TO":0.19}},{"n":2,"categoria":"REFRIGERANTES","produto":"Fanta Laranja, Uva, Sprite e Jesus","embalagem":"2L","reembolso":0.08,"extras":{"TTV GYN":6.34,"TTV INT GO":6.41,"TTV TO":6.59,"TTC GYN":7.39,"TTC INT GO":7.49,"TTC TO":7.79,"MKP GYN":0.18,"MKP INT GO":0.18,"MKP TO":0.2}},{"n":3,"categoria":"REFRIGERANTES","produto":"Kuat e Fanta Guaraná","embalagem":"2L","reembolso":0.08,"extras":{"TTV GYN":4.26,"TTV INT GO":4.31,"TTV TO":4.42,"TTC GYN":4.99,"TTC INT GO":5.09,"TTC TO":5.29,"MKP GYN":0.19,"MKP INT GO":0.2,"MKP TO":0.22}},{"n":4,"categoria":"REFRIGERANTES","produto":"Coca-Cola Original e Zero","embalagem":"2L REFPET","reembolso":0.1,"extras":{"TTV GYN":6.28,"TTV INT GO":6.35,"TTV TO":6.53,"TTC GYN":7.59,"TTC INT GO":7.69,"TTC TO":7.99,"MKP GYN":0.23,"MKP INT GO":0.23,"MKP TO":0.24}},{"n":5,"categoria":"REFRIGERANTES","produto":"Fanta Laranja","embalagem":"2L REFPET","reembolso":0.3,"extras":{"TTV GYN":5.03,"TTV INT GO":5.09,"TTV TO":5.23,"TTC GYN":5.99,"TTC INT GO":6.09,"TTC TO":6.39,"MKP GYN":0.27,"MKP INT GO":0.27,"MKP TO":0.3}},{"n":6,"categoria":"REFRIGERANTES","produto":"Coca-Cola Original e Zero","embalagem":"1L REFPET","reembolso":0.1,"extras":{"TTV GYN":3.49,"TTV INT GO":3.53,"TTV TO":3.62,"TTC GYN":4.29,"TTC INT GO":4.29,"TTC TO":4.39,"MKP GYN":0.27,"MKP INT GO":0.25,"MKP TO":0.25}},{"n":7,"categoria":"REFRIGERANTES","produto":"Fanta Laranja","embalagem":"1L REFPET","reembolso":0.1,"extras":{"TTV GYN":2.79,"TTV INT GO":2.82,"TTV TO":2.91,"TTC GYN":3.39,"TTC INT GO":3.49,"TTC TO":3.59,"MKP GYN":0.26,"MKP INT GO":0.28,"MKP TO":0.28}},{"n":8,"categoria":"REFRIGERANTES","produto":"Kuat Guaraná","embalagem":"1L REFPET","reembolso":0.1,"extras":{"TTV GYN":2.11,"TTV INT GO":2.14,"TTV TO":2.19,"TTC GYN":2.59,"TTC INT GO":2.59,"TTC TO":2.69,"MKP GYN":0.29,"MKP INT GO":0.27,"MKP TO":0.29}},{"n":9,"categoria":"REFRIGERANTES","produto":"Coca-Cola Original e Zero","embalagem":"1.5L","reembolso":0.25,"extras":{"TTV GYN":8.07,"TTV INT GO":8.15,"TTV TO":8.39,"TTC GYN":9.39,"TTC INT GO":9.49,"TTC TO":9.99,"MKP GYN":0.2,"MKP INT GO":0.2,"MKP TO":0.23}},{"n":10,"categoria":"REFRIGERANTES","produto":"Schweppes Citrus","embalagem":"1.5L","reembolso":0.8,"extras":{"TTV GYN":7.49,"TTV INT GO":7.57,"TTV TO":7.87,"TTC GYN":8.39,"TTC INT GO":8.49,"TTC TO":8.79,"MKP GYN":0.25,"MKP INT GO":0.25,"MKP TO":0.24}},{"n":11,"categoria":"REFRIGERANTES","produto":"Fanta Laranja, Uva e Sprite","embalagem":"1.5L","reembolso":0.25,"extras":{"TTV GYN":6.46,"TTV INT GO":6.53,"TTV TO":6.73,"TTC GYN":7.79,"TTC INT GO":7.89,"TTC TO":8.09,"MKP GYN":0.25,"MKP INT GO":0.26,"MKP TO":0.25}},{"n":12,"categoria":"REFRIGERANTES","produto":"Kuat e Fanta Guaraná","embalagem":"1.5L","reembolso":0.3,"extras":{"TTV GYN":5.25,"TTV INT GO":5.31,"TTV TO":5.47,"TTC GYN":6.39,"TTC INT GO":6.39,"TTC TO":6.59,"MKP GYN":0.29,"MKP INT GO":0.28,"MKP TO":0.27}},{"n":13,"categoria":"REFRIGERANTES","produto":"Coca-Cola Original e Zero","embalagem":"1L","reembolso":0.1,"extras":{"TTV GYN":5.9,"TTV INT GO":5.96,"TTV TO":6.13,"TTC GYN":6.89,"TTC INT GO":6.89,"TTC TO":7.29,"MKP GYN":0.19,"MKP INT GO":0.18,"MKP TO":0.21}},{"n":14,"categoria":"REFRIGERANTES","produto":"Fanta Laranja, Uva e Sprite","embalagem":"1L","reembolso":0.2,"extras":{"TTV GYN":4.72,"TTV INT GO":4.77,"TTV TO":4.91,"TTC GYN":5.69,"TTC INT GO":5.79,"TTC TO":5.99,"MKP GYN":0.26,"MKP INT GO":0.27,"MKP TO":0.27}},{"n":15,"categoria":"REFRIGERANTES","produto":"Kuat e Fanta Guaraná","embalagem":"1L","reembolso":0.2,"extras":{"TTV GYN":4.01,"TTV INT GO":4.05,"TTV TO":4.18,"TTC GYN":4.89,"TTC INT GO":4.89,"TTC TO":5.09,"MKP GYN":0.28,"MKP INT GO":0.27,"MKP TO":0.28}},{"n":16,"categoria":"REFRIGERANTES","produto":"Coca-Cola Original e Zero","embalagem":"600 ml","reembolso":0.1,"extras":{"TTV GYN":5.17,"TTV INT GO":5.23,"TTV TO":5.39,"TTC GYN":6.19,"TTC INT GO":6.19,"TTC TO":6.19,"MKP GYN":0.22,"MKP INT GO":0.21,"MKP TO":0.17}},{"n":17,"categoria":"REFRIGERANTES","produto":"Coca-Cola Original e Zero","embalagem":"350 ml","reembolso":0.1,"extras":{"TTV GYN":3.56,"TTV INT GO":3.6,"TTV TO":3.71,"TTC GYN":4.19,"TTC INT GO":4.29,"TTC TO":4.39,"MKP GYN":0.21,"MKP INT GO":0.23,"MKP TO":0.22}},{"n":18,"categoria":"REFRIGERANTES","produto":"Fanta Laranja, Uva, Sprite e Jesus","embalagem":"350 ml","reembolso":0.25,"extras":{"TTV GYN":3.2,"TTV INT GO":3.24,"TTV TO":3.38,"TTC GYN":3.59,"TTC INT GO":3.59,"TTC TO":4.09,"MKP GYN":0.22,"MKP INT GO":0.2,"MKP TO":0.31}},{"n":19,"categoria":"REFRIGERANTES","produto":"Kuat e Fanta Guaraná","embalagem":"350 ml","reembolso":0.25,"extras":{"TTV GYN":3.18,"TTV INT GO":3.22,"TTV TO":3.35,"TTC GYN":3.89,"TTC INT GO":3.89,"TTC TO":4.09,"MKP GYN":0.33,"MKP INT GO":0.31,"MKP TO":0.32}},{"n":20,"categoria":"REFRIGERANTES","produto":"Schweppes Citrus","embalagem":"350 ml","reembolso":0.5,"extras":{"TTV GYN":3.45,"TTV INT GO":3.49,"TTV TO":3.62,"TTC GYN":4.19,"TTC INT GO":4.19,"TTC TO":4.39,"MKP GYN":0.42,"MKP INT GO":0.4,"MKP TO":0.41}},{"n":21,"categoria":"REFRIGERANTES","produto":"Schweppes Tônica Original e Zero","embalagem":"350 ml","reembolso":0.5,"extras":{"TTV GYN":3.45,"TTV INT GO":3.49,"TTV TO":3.62,"TTC GYN":4.19,"TTC INT GO":4.19,"TTC TO":4.39,"MKP GYN":0.42,"MKP INT GO":0.4,"MKP TO":0.41}},{"n":22,"categoria":"STILL","produto":"Del Valle Frut (Todos os sabores)","embalagem":"1.5L","reembolso":0.2,"extras":{"TTV GYN":4.62,"TTV INT GO":4.67,"TTV TO":4.85,"TTC GYN":5.59,"TTC INT GO":5.69,"TTC TO":5.89,"MKP GYN":0.26,"MKP INT GO":0.27,"MKP TO":0.27}},{"n":23,"categoria":"STILL","produto":"Monster Energy (TODOS OS SABORES)","embalagem":"473ml","reembolso":0.25,"extras":{"TTV GYN":7.23,"TTV INT GO":7.31,"TTV TO":7.6,"TTC GYN":9.39,"TTC INT GO":9.49,"TTC TO":9.89,"MKP GYN":0.35,"MKP INT GO":0.34,"MKP TO":0.35}},{"n":24,"categoria":"STILL","produto":"POWERADE (TODOS OS SABORES)","embalagem":"500ML","reembolso":0.5,"extras":{"TTV GYN":4.34,"TTV INT GO":4.39,"TTV TO":4.5,"TTC GYN":5.39,"TTC INT GO":5.49,"TTC TO":5.59,"MKP GYN":0.4,"MKP INT GO":0.41,"MKP TO":0.4}},{"n":25,"categoria":"STILL","produto":"Kapo (Todos os Sabores)","embalagem":"200ml","reembolso":0.1,"extras":{"TTV GYN":1.89,"TTV INT GO":1.91,"TTV TO":1.99,"TTC GYN":2.29,"TTC INT GO":2.29,"TTC TO":2.39,"MKP GYN":0.28,"MKP INT GO":0.27,"MKP TO":0.26}},{"n":26,"categoria":"STILL","produto":"DV NÉCTAR (TODOS OS SABORES)","embalagem":"TP 1L","reembolso":0.5,"extras":{"TTV GYN":6.05,"TTV INT GO":6.12,"TTV TO":6.36,"TTC GYN":7.39,"TTC INT GO":7.49,"TTC TO":7.79,"MKP GYN":0.33,"MKP INT GO":0.33,"MKP TO":0.33}},{"n":27,"categoria":"ARTDs","produto":"Schweppes Mixed Lata","embalagem":"269 ml","reembolso":0.35,"extras":{"TTV GYN":4.44,"TTV INT GO":4.49,"TTV TO":4.44,"TTC GYN":5.99,"TTC INT GO":6.09,"TTC TO":5.99,"MKP GYN":0.46,"MKP INT GO":0.47,"MKP TO":0.46}},{"n":28,"categoria":"ARTDs","produto":"Schweppes Mixed Vidro","embalagem":"250 ml","reembolso":0.35,"extras":{"TTV GYN":6.03,"TTV INT GO":6.13,"TTV TO":6.51,"TTC GYN":8.19,"TTC INT GO":8.29,"TTC TO":8.49,"MKP GYN":0.44,"MKP INT GO":0.43,"MKP TO":0.38}},{"n":29,"categoria":"ARTDs","produto":"Sprite Absolut","embalagem":"269 ml","reembolso":0.35,"extras":{"TTV GYN":7.26,"TTV INT GO":7.34,"TTV TO":7.26,"TTC GYN":9.79,"TTC INT GO":9.89,"TTC TO":9.79,"MKP GYN":0.42,"MKP INT GO":0.41,"MKP TO":0.42}},{"n":30,"categoria":"ARTDs","produto":"Jack & Coke","embalagem":"350 ml","reembolso":0.35,"extras":{"TTV GYN":8.15,"TTV INT GO":8.15,"TTV TO":8.25,"TTC GYN":10.99,"TTC INT GO":11.09,"TTC TO":11.29,"MKP GYN":0.41,"MKP INT GO":0.42,"MKP TO":0.43}},{"n":31,"categoria":"ARTDs","produto":"Campari 748mL (01un.)","embalagem":"748 ml","reembolso":2.0,"extras":{"TTV GYN":39.99,"TTV INT GO":40.39,"TTV TO":39.99,"TTC GYN":51.99,"TTC INT GO":52.49,"TTC TO":51.99,"MKP GYN":0.37,"MKP INT GO":0.37,"MKP TO":0.37}},{"n":32,"categoria":"ARTDs","produto":"Campari 998mL (01un.)","embalagem":"998 ml","reembolso":2.0,"extras":{"TTV GYN":48.66,"TTV INT GO":49.15,"TTV TO":48.66,"TTC GYN":63.29,"TTC INT GO":52.49,"TTC TO":63.29,"MKP GYN":0.36,"MKP INT GO":0.11,"MKP TO":0.36}},{"n":33,"categoria":"ARTDs","produto":"Sagatiba Cristalina 700mL (01un.)","embalagem":"700 ml","reembolso":4.0,"extras":{"TTV GYN":32.88,"TTV INT GO":33.54,"TTV TO":30.85,"TTC GYN":37.99,"TTC INT GO":38.99,"TTC TO":34.99,"MKP GYN":0.32,"MKP INT GO":0.32,"MKP TO":0.3}},{"n":34,"categoria":"ARTDs","produto":"Skyy Vodka 980mL (01un.)","embalagem":"980 ml","reembolso":1.5,"extras":{"TTV GYN":36.34,"TTV INT GO":36.71,"TTV TO":35.99,"TTC GYN":44.99,"TTC INT GO":46.99,"TTC TO":44.99,"MKP GYN":0.29,"MKP INT GO":0.33,"MKP TO":0.3}},{"n":35,"categoria":"ARTDs","produto":"Skyy Vodka 750mL (01un.)","embalagem":"750 ml","reembolso":4.0,"extras":{"TTV GYN":31.8,"TTV INT GO":32.12,"TTV TO":41.8,"TTC GYN":37.99,"TTC INT GO":38.99,"TTC TO":"-","MKP GYN":0.37,"MKP INT GO":0.39,"MKP TO":"-"}}],"ean":{"7894900603705":25,"7894900650051":25,"7894900650044":25,"7894900563719":25,"7894900563702":25,"17894900650010":25,"7894900650013":25,"7894900573718":25,"7894900573701":25,"7894900583717":25,"7894900583700":25,"7894900593716":25,"7894900593709":25,"7898938890137":23,"7898938890113":23,"7898938890144":23,"7898938890120":23,"17894900503002":24,"7894900503029":24,"17894900500001":24,"7894900500035":24,"17894900509608":24,"7894900509601":24,"17894900504009":24,"7894900504002":24,"7894900502053":24,"7894900502046":24,"7894900508024":24,"7894900508017":24,"17894900501008":24,"7894900501001":24,"17894900337003":29,"7894900337006":29,"7896010006308":31,"7896010006315":32,"7894900019841":17,"7894900010015":17,"7894900010046":17,"7894900027006":9,"7894900011739":13,"7894900027044":13,"27894900027017":1,"7894900027013":1,"27894900014093":6,"7894900014099":6,"27894900027086":4,"7894900027082":4,"27894900011757":9,"7894900011753":9,"7894900019919":16,"7894900011609":16,"47894900700013":17,"7894900700015":17,"7894900700046":17,"7894900702071":9,"7894900701753":9,"17894900701712":13,"7894900701715":13,"7894900709926":1,"7894900701517":1,"7894900709919":16,"7894900701609":16,"27894900704215":4,"7894900704211":4,"17894900666523":22,"7894900666526":22,"17894900556060":22,"7894900556063":22,"17894900550068":22,"7894900550061":22,"7898164662669":26,"7894900660364":26,"17894900664048":26,"7894900664041":26,"17898341431634":26,"7898341430081":26,"17898341431658":26,"7898341430111":26,"7894900660357":26,"17894900664031":26,"7894900664034":26,"7898341430074":26,"17898341431603":26,"7898341430036":26,"17898341431580":26,"7898341430098":26,"7894900093001":19,"7894900093278":12,"7894900093056":3,"7894900039849":18,"7894900030013":18,"7894900030044":18,"7894900031751":11,"7894900031737":14,"7894900031713":14,"7894900039924":2,"7894900031515":2,"7894900034097":7,"7894900034226":5,"7894900034219":5,"7894900150018":18,"27894900151514":2,"7894900151510":2,"7894900059847":18,"7894900050011":18,"7894900051759":11,"7894900059922":2,"7894900051513":2,"7894900940220":18,"7894900940015":18,"17894900941514":2,"7894900941517":2,"7894900336528":30,"7894900336504":30,"7894900603712":25,"17894900650362":25,"7894900650365":25,"37894900910019":19,"7894900910018":19,"7894900911756":12,"7894900911732":15,"7894900911718":15,"7894900919929":3,"7894900911510":3,"17894900920014":19,"7894900920017":19,"70847022527":23,"70847022305":23,"1220000250024":23,"70847022015":23,"7898938890083":23,"7898938890076":23,"70847034810":23,"70847034803":23,"1220000250413":23,"1220000250406":23,"70847022534":23,"70847022022":23,"1220000250154":23,"1220000250147":23,"70847033318":23,"70847033301":23,"1220000250239":23,"1220000250222":23,"1220000250017":23,"1220000250000":23,"7898938890106":23,"7898938890090":23,"7898938890052":23,"7898938890045":23,"1220000250048":23,"1220000250031":23,"70847022220":23,"70847022206":23,"70847033936":23,"70847033929":23,"7898770420059":23,"7898770420042":23,"17894900509707":24,"7894900509700":24,"17894900509806":24,"7894900509809":24,"7894900509014":24,"7894900509007":24,"7894900506006":24,"17894900506003":24,"7896010000016":33,"7894900180510":20,"7894900180503":20,"17894900180548":10,"7894900180541":10,"17894900184072":27,"7894900184075":27,"7894900184013":28,"7894900184006":28,"17894900184904":27,"7894900184907":27,"17894900184379":27,"7894900184372":27,"7894900184310":28,"7894900184303":28,"7894900300017":21,"7894900360042":21,"7894900360011":21,"17894900184171":27,"7894900184174":27,"17894900184270":27,"7894900184273":27,"7894900184211":28,"7894900184204":28,"7896010004502":35,"7896010004007":34,"7894900680539":11,"7894900680522":11,"17894900681045":18,"7894900681017":18,"7894900060010":18,"27894900681271":11,"7894900681277":11,"17894900681069":2,"7894900681000":2,"7894900069839":18,"27894900061516":2,"7894900061512":2,"7898770420035":23,"7898770420011":23},"qtd":{"7894900650051":12,"7894900563719":12,"17894900650010":12,"7894900573718":12,"7894900583717":12,"7894900593716":12,"7898938890137":6,"7898938890113":12,"7898938890144":6,"17894900503002":6,"17894900500001":6,"17894900509608":6,"17894900504009":6,"7894900502053":6,"7894900508024":6,"17894900501008":6,"17894900337003":6,"17894900087007":6,"17894900087014":6,"17894900087045":6,"17894900087052":6,"17894900087069":6,"17894900087076":6,"17894900087083":6,"17894900087090":6,"17894900086000":6,"17894900086024":6,"17894900087106":6,"17894900087113":6,"17894900087120":6,"17894900087137":6,"7894900025026":6,"7894900010404":12,"7894900019841":12,"7894900010046":6,"27894900027093":12,"7894900011739":6,"27894900027024":6,"27894900027017":6,"27894900014093":12,"27894900027086":12,"27894900011757":6,"17894900012214":12,"17894900012047":12,"7894900019919":12,"27894900705113":12,"17894900700395":12,"47894900700013":12,"7894900700046":6,"7894900702071":6,"17894900701712":6,"17894900702214":12,"7894900709926":6,"7894900709919":12,"27894900704215":12,"17894900666523":6,"17894900666516":6,"17894900666509":6,"17894900556060":6,"17894900556039":6,"17894900556053":6,"17894900550068":6,"17894900550037":6,"17894900550136":12,"17894900550051":6,"7894900664072":6,"7894900664089":6,"7894900664096":6,"17894900664048":6,"17898341431634":6,"17898341431658":6,"17894900664031":6,"17894900660309":6,"17898341431627":6,"17898341431603":6,"17894900660422":18,"17898341431580":6,"17894900660439":18,"7894900096545":12,"17894900093381":12,"27894900035111":12,"7894900039849":12,"7894900030044":6,"7894900031737":6,"17894900032212":12,"7894900039924":6,"7894900034226":12,"27894900151514":6,"7894900059847":12,"17894900052210":12,"7894900059922":6,"27894900054211":12,"17894900097020":6,"7894900940220":6,"17894900941514":6,"17891098040852":6,"17891098041279":12,"27891098040835":12,"27891098041061":12,"17891098040906":6,"17891098041286":12,"27891098040880":12,"27891098041122":12,"7894900336542":6,"7894900336528":6,"7894900603712":12,"17894900650362":12,"27894900915116":12,"37894900910019":12,"7894900911732":6,"7894900912210":12,"7894900919929":6,"17894900920014":6,"70847022527":6,"1220000250024":6,"7898938890083":6,"70847034810":6,"1220000250413":6,"70847022534":6,"1220000250154":6,"70847033318":6,"1220000250239":6,"1220000250017":6,"7898938890106":6,"7898938890052":6,"1220000250048":6,"70847022220":6,"70847033936":6,"7898770420059":6,"17894900509707":6,"17894900509806":6,"7894900509014":6,"7894900506006":6,"1220000250062":6,"1220000250116":6,"1220000250086":6,"1220000250130":6,"7894900180510":6,"17894900180548":6,"17894900184072":6,"7894900184013":6,"17894900184904":6,"17894900184379":6,"7894900184310":6,"7894900360042":6,"17894900184171":6,"17894900184270":6,"7894900184211":6,"7894900680539":6,"17894900681045":12,"27894900681271":6,"7894900681192":12,"17894900681069":6,"37894900681247":12,"7894900069839":6,"27894900061516":6,"17898714832303":6,"7898770420035":6}};
 
 /* gerado por build/build.py */
-const APP_BUILD = '13/10/2026 15:47';
+const APP_BUILD = '14/10/2026 20:39';
 
 /* ===================== Servidor Google Apps Script: login, bases e solicitações =====================
    Substitui o armazenamento do claude.ai. Todas as permissões são conferidas no servidor (Code.gs):
@@ -4291,7 +4402,7 @@ function ticketRowCommon(t) {
   return `<td>${fmtDateTime(t.enviadoEm)}${t.versao > 1 ? `<br><span class="small muted">reenvio nº ${t.versao - 1} · 1º envio ${fmtDateTime(t.criadoEm)}</span>` : ''}</td>
     <td>${t.uid ? `<b data-uid="${esc(t.uid)}">${esc(t.solicitante || 'Solicitante')}</b>` : `<b>${esc(t.solicitante || '—')}</b>`}${t.solicitante && t.uid ? `<br><span class="small muted">${esc(t.solicitante)}</span>` : ''}${t.origem && !t.shared ? `<br><span class="small muted">${esc(t.origem)}</span>` : ''}</td>
     <td>${ticketChip(t)}${t.status === 'atendido' && (t.atendidoPor || t.atendidoEm) ? `<div class="small atendido-por">Atendida${t.atendidoPor ? ` por <b>${esc(t.atendidoPor)}</b>` : ''}${t.atendidoEm ? ` em ${fmtDateTime(t.atendidoEm)}` : ''}</div>` : ''}${t.notaAdmin ? `<div class="small" style="margin-top:4px"><b>Nota:</b> ${esc(t.notaAdmin)}</div>` : ''}${typeof jiraChip === 'function' ? jiraChip(t) : ''}</td>
-    <td class="small">${plural(r.clientes || 0, 'cliente')} · ${plural(r.redes || 0, 'rede')}<br>${plural(r.produtos || 0, 'produto')} · ${plural(r.grupos || 0, 'arquivo')} Excel</td>
+    <td class="small">${typeof redesTexto === 'function' ? redesTexto(t) : ''}${plural(r.clientes || 0, 'cliente')} · ${plural(r.redes || 0, 'rede')}<br>${plural(r.produtos || 0, 'produto')} · ${plural(r.grupos || 0, 'arquivo')} Excel</td>
     <td class="small">${r.pendInvest ? `<span class="chip erro">${r.pendInvest} pendência(s) de investimento</span><br>` : ''}${r.avisos ? `<span class="chip aviso">${r.avisos} aviso(s)</span>` : (!r.pendInvest ? '<span class="chip ok">sem pendências</span>' : '')}</td>`;
 }
 /* ---------- Minhas solicitações (time comercial) ---------- */
@@ -4825,7 +4936,7 @@ ACTIONS['supa-arquivar'] = async (el) => {
 /* Ambiente de teste: faixa amarela, endereço do Supabase informado na primeira abertura, Jira só simulado */
 if (window.APP_TESTE) {
   document.documentElement.classList.add('app-teste');
-  const bar = document.createElement('div'); bar.className = 'teste-banner'; bar.innerHTML = '<b>AMBIENTE DE TESTE</b> · Projeto 2 — dados de teste; o envio ao Jira é só simulado. <button class="btn sm" data-act="teste-config">Trocar projeto de teste</button>';
+  const bar = document.createElement('div'); bar.className = 'teste-banner'; bar.innerHTML = '<b>AMBIENTE DE TESTE</b><span class="tb-txt"> · Projeto 2 — dados de teste; o envio ao Jira é só simulado.</span> <button class="btn sm" data-act="teste-config">Trocar projeto de teste</button>';
   document.body.insertBefore(bar, document.body.firstChild);
   ACTIONS['teste-config'] = async () => { if (await confirmBox('Trocar projeto de teste', '<p>Apaga o endereço e a chave do Supabase de teste guardados neste navegador e pede de novo.</p>', 'Trocar')) { try { localStorage.removeItem('promo:supa-cfg'); } catch (e) { /* */ } sessionStorage.clear(); location.reload(); } };
 }
@@ -4857,10 +4968,112 @@ ACTIONS['tk-reuse'] = async (el) => {
 
 /* TESTE: reembolso/investimento da tabela bloqueado para todos (inclusive Administração).
    Só pode ser digitado quando o produto não tem investimento automático na tabela. */
-if (window.APP_TESTE) reembLivre = function () { return false; };
+/* 14/10: decidido que a Administração CONTINUA podendo alterar o reembolso (sem override de reembLivre). Comercial segue travado quando há valor na tabela. */
 
-/* OFICIAL: por enquanto só o nível Master foi aprovado. Backup/arquivar e Reaproveitar ficam só no TESTE. */
-if (!window.APP_TESTE) { backupBotao = function () { return ''; }; adminExtrasChamados = function () { return ''; }; reaproveitarBotao = function () { return ''; }; }
+/* Sem APP_NOVIDADES (build antigo): backup/arquivar e Reaproveitar desligados. Desde 14/10 o oficial também tem as novidades. */
+if (!window.APP_NOVIDADES) { backupBotao = function () { return ''; }; adminExtrasChamados = function () { return ''; }; reaproveitarBotao = function () { return ''; }; }
+
+/* TESTE: nome da(s) rede(s) em Minhas solicitações e na fila da Administração.
+   O nome é gravado no resumo ao enviar (resumo.nomesRedes); solicitações antigas mostram ao serem reenviadas/editadas. */
+if (window.APP_NOVIDADES) {
+  const _resumoBase = ticketResumo;
+  ticketResumo = function (s) {
+    const r = _resumoBase(s); const nomes = [];
+    for (const c of s.cvs || []) { const n = normSpaces((c.rec && c.rec.rede) || ''); if (n && !nomes.includes(n)) nomes.push(n); }
+    r.nomesRedes = nomes.slice(0, 30); return r;
+  };
+}
+function redesTexto(t) {
+  if (!window.APP_NOVIDADES) return '';
+  const n = (t.resumo && t.resumo.nomesRedes) || [];
+  if (!n.length) return '';
+  const vis = n.slice(0, 3).join(' / ') + (n.length > 3 ? ` e mais ${n.length - 3}` : '');
+  return `<div class="tk-rede" title="${esc(n.join(' / '))}"><b>Rede:</b> ${esc(vis)}</div>`;
+}
+
+/* TESTE · celular: catálogo em cartões compactos (marca · embalagem · tipo numa linha) e lista limitada a 30 com "Mostrar mais". */
+if (window.APP_NOVIDADES) {
+  const _renderCatalog = renderCatalog;
+  renderCatalog = function () {
+    let h = _renderCatalog();
+    if (!(window.matchMedia && matchMedia('(max-width:700px)').matches)) return h;
+    const box = document.createElement('div'); box.innerHTML = h;
+    box.querySelectorAll('table.catalog tbody tr').forEach((tr) => {
+      const td = tr.children; if (td.length < 8) return;
+      const m = document.createElement('td'); m.className = 'meta-m';
+      m.textContent = [td[3].textContent, td[4].textContent, td[6].textContent].map((x) => x.trim()).filter(Boolean).join(' · ');
+      tr.appendChild(m);
+    });
+    const tb = box.querySelector('table.catalog'); const n = box.querySelectorAll('table.catalog tbody tr').length;
+    if (tb && n > 30 && !UI.pfMais) { tb.classList.add('lim'); box.insertAdjacentHTML('beforeend', `<button class="btn cat-more" data-act="pf-mais">Mostrar todos os ${n} produtos</button>`); }
+    return box.innerHTML;
+  };
+  ACTIONS['pf-mais'] = () => { UI.pfMais = true; $('#catalog').innerHTML = renderCatalog(); };
+}
+
+/* TESTE: texto do chamado no Jira no formato pedido em 14/10:
+   "Segue cliente para cadastro de promoções : NOME DO CLIENTE - CNPJ" (um cliente por linha). */
+if (window.APP_NOVIDADES) {
+  jiraDescricao = function (t, d) {
+    const cs = (d.clients || []).map((c) => { const r = c.snap || IDX.clientes.get(c.key) || {}; return `${normSpaces(clientName(r) || r.fantasia || '')} - ${fmtCNPJ(r.cnpj)}`; });
+    if (cs.length === 1) return `Segue cliente para cadastro de promoções : ${cs[0]}`;
+    return ['Segue clientes para cadastro de promoções :', ...cs].join('\n');
+  };
+}
+
+/* TESTE: pesquisa em Minhas solicitações por nome do cliente, PV (cód. cliente), rede, solicitante ou nº do Jira.
+   Ao enviar, o resumo guarda "PV nome" de cada cliente (resumo.clientesBusca); as antigas são preenchidas pelo 12_redes_resumo.sql. */
+if (window.APP_NOVIDADES) {
+  const _resumoBusca = ticketResumo;
+  ticketResumo = function (s) {
+    const r = _resumoBusca(s); const v = [];
+    for (const c of s.cvs || []) { const x = c.rec || {}; const t = normSpaces(`${x.codigo || ''} ${clientName(x) || x.fantasia || ''}`); if (t && !v.includes(t)) v.push(t); }
+    r.clientesBusca = v.slice(0, 400); return r;
+  };
+  const semAcento = (s) => String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+  const textoBusca = (t) => semAcento([t.id, t.solicitante, t.jira && t.jira.key, ...((t.resumo && t.resumo.nomesRedes) || []), ...((t.resumo && t.resumo.clientesBusca) || [])].filter(Boolean).join(' | '));
+  const _ticketsMine = ticketsMine; let filtrando = false;
+  ticketsMine = function () {
+    const l = _ticketsMine(); const q = filtrando ? semAcento(normSpaces(UI.minhaBusca || '')) : '';
+    if (!q) return l; const partes = q.split(' ').filter(Boolean);
+    return l.filter((t) => { const tx = textoBusca(t); return partes.every((p) => tx.includes(p)); });
+  };
+  const _renderMyTickets = renderMyTickets;
+  renderMyTickets = function () {
+    filtrando = true; let total = 0;
+    try { _renderMyTickets(); } finally { filtrando = false; }
+    try { total = _ticketsMine().length; } catch (e) { total = 0; }
+    const head = $('#view-tickets .card-head'); if (!head || !total) return;
+    const q = UI.minhaBusca || ''; const n = q ? (filtrando = true, (() => { try { return ticketsMine().length; } finally { filtrando = false; } })()) : total;
+    head.insertAdjacentHTML('afterend', `<div class="minha-busca"><input type="search" id="mb-q" data-in="mb-q" placeholder="Pesquisar por cliente, PV, rede ou nº do Jira" value="${esc(q)}" autocomplete="off" aria-label="Pesquisar solicitações">
+      <span class="muted small">${q ? `${n} de ${total}` : `${total} solicitação(ões)`}</span>${q ? '<button class="btn sm ghost" data-act="mb-limpar">Limpar</button>' : ''}</div>`);
+    if (q && !n) { const tw = $('#view-tickets .table-wrap'); if (tw) tw.outerHTML = `<p class="empty">Nenhuma solicitação encontrada para “${esc(q)}”. Dica: digite parte do nome do cliente ou o PV.</p>`; }
+  };
+  INPUTS['mb-q'] = debounce((el) => { UI.minhaBusca = el.value; const pos = el.selectionStart; renderMyTickets(); const i = $('#mb-q'); if (i) { i.focus(); try { i.setSelectionRange(pos, pos); } catch (e) { /* ok */ } } }, 250);
+  ACTIONS['mb-limpar'] = () => { UI.minhaBusca = ''; renderMyTickets(); const i = $('#mb-q'); if (i) i.focus(); };
+}
+
+/* TESTE: botão "Ver solicitação" em Minhas solicitações — mostra clientes e produtos/condições, só leitura. */
+if (window.APP_NOVIDADES) {
+  const _reapBtn = reaproveitarBotao;
+  reaproveitarBotao = function (t) { return `<button class="btn sm" data-act="tk-view" data-id="${esc(t.id)}" data-uid="${esc(t.uid || '')}">Ver solicitação</button>` + _reapBtn(t); };
+  ACTIONS['tk-view'] = async (el) => {
+    const t = tkFind(el); if (!t) return; const old = el.textContent; el.disabled = true; el.textContent = 'Abrindo…';
+    let d; try { d = await ticketDraft(t); } catch (e) { toast('Não foi possível abrir a solicitação: ' + e.message, 'err'); return; } finally { el.disabled = false; el.textContent = old; }
+    const cs = d.clients || [], its = d.items || [];
+    const td = (lbl, v, cls = '') => `<td data-label="${lbl}"${cls ? ` class="${cls}"` : ''}>${v}</td>`;
+    const cli = cs.map((c) => { const r = c.snap || {}; return `<tr>${td('PV', esc(r.codigo || '—'), 'mono')}${td('Cliente', esc(clientName(r)))}${td('CNPJ', esc(fmtCNPJ(r.cnpj)), 'mono')}${td('Rede', esc(c.rede || '—'))}</tr>`; }).join('');
+    const pro = its.map((i) => { const p = i.snap || {}; return `<tr>${td('Produto', `<b>${esc(p.descricao || i.productKey)}</b><br><span class="small muted">${esc(p.ean || '')}</span>`)}${td('Un/Cx', esc(p.tipo || '—'))}${td('Preço TTC', i.ttc ? 'R$ ' + esc(i.ttc) : '—')}${td('Reembolso', i.reembolso ? 'R$ ' + esc(i.reembolso) : '—')}${td('Início', i.inicio ? fmtDate(i.inicio) : '—')}${td('Fim', i.fim ? fmtDate(i.fim) : '—')}${td('Limite/cupom', esc(i.limite || '—'))}${td('Cadeado', esc(i.cadeado || '—'))}</tr>`; }).join('');
+    const reap = _reapBtn(t);
+    openModal({ title: 'Solicitação', wide: true,
+      body: `<div class="ver-sol"><div class="vs-head">${ticketChip(t)}<span class="small muted">Último envio ${fmtDateTime(t.enviadoEm)} · ${esc(t.solicitante || '—')}</span>${t.jira && t.jira.key ? `<span class="chip neutral">Jira ${esc(t.jira.key)}</span>` : ''}</div>
+        ${t.notaAdmin ? `<div class="alert warn small"><b>Nota da Administração:</b> ${esc(t.notaAdmin)}</div>` : ''}
+        <h3>${plural(cs.length, 'cliente')}</h3><div class="table-wrap"><table class="t"><thead><tr><th>PV</th><th>Cliente</th><th>CNPJ</th><th>Rede</th></tr></thead><tbody>${cli || '<tr><td colspan="4" class="empty">Sem clientes</td></tr>'}</tbody></table></div>
+        <h3 style="margin-top:14px">${plural(its.length, 'produto')}</h3><div class="table-wrap"><table class="t"><thead><tr><th>Produto</th><th>Un/Cx</th><th>Preço TTC</th><th>Reembolso</th><th>Início</th><th>Fim</th><th>Limite/cupom</th><th>Cadeado</th></tr></thead><tbody>${pro || '<tr><td colspan="8" class="empty">Sem produtos</td></tr>'}</tbody></table></div>
+        ${d.meta && d.meta.observacoes ? `<p class="small" style="margin-top:12px"><b>Observações:</b> ${esc(d.meta.observacoes)}</p>` : ''}</div>`,
+      footer: `<div class="btn-row" style="justify-content:flex-end;width:100%">${reap}<button class="btn primary" data-act="modal-close">Fechar</button></div>` });
+  };
+}
 
 init().catch((e) => { console.error(e); if (window.__diagShow) window.__diagShow(String(e && e.message || e)); });
 </script>
