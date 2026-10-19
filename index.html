@@ -627,10 +627,38 @@ html.app-teste .auth-bg::before{content:"AMBIENTE DE TESTE";position:fixed;top:0
 .ver-sol h3{font-size:15px;margin:6px 0 8px}
 .ver-sol .table-wrap{max-height:340px}
 
+/* login sem o aviso de acesso restrito: dá espaço ao rodapé */
+.auth-btn + .auth-ver,.auth-card form + .auth-ver,.auth-ver{margin-top:18px}
+/* Andamento do cadastro (status do Jira) */
+tr.pg-row td{padding:2px 14px 16px!important;border-top:0!important}
+tr.pg-has td{border-bottom:0!important}
+.pg-head{font-size:11px;font-weight:700;letter-spacing:.04em;color:#6b7280;text-transform:uppercase;margin:0 0 8px}
+.pg{display:flex;align-items:flex-start;max-width:760px}
+.pg-step{display:flex;flex-direction:column;align-items:center;width:190px;text-align:center;flex:0 0 auto}
+.pg-ic{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid #d5d9e0;color:#9aa0a6;background:#fff}
+.pg-step.ok .pg-ic{background:#16a34a;border-color:#16a34a;color:#fff;box-shadow:0 0 0 4px #dcfce7}
+.pg-step.now .pg-ic{border-color:#f59e0b;color:#b45309;background:#fff7e6;box-shadow:0 0 0 4px #fef3c7}
+.pg-t{font-size:12.5px;font-weight:700;color:#9aa0a6;margin-top:7px}
+.pg-step.ok .pg-t{color:#15803d}.pg-step.now .pg-t{color:#b45309}
+.pg-d{font-size:11px;color:#9aa0a6;margin-top:2px;line-height:1.35}
+.pg-line{flex:1 1 auto;height:4px;border-radius:4px;background:#e5e7eb;margin-top:17px;min-width:40px}
+.pg-line.ok{background:#16a34a}.pg-line.half{background:linear-gradient(90deg,#16a34a 50%,#e5e7eb 50%)}
+.js-row{display:flex;align-items:center;gap:6px;margin-top:4px;flex-wrap:wrap}
+.js-pill{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:2px 10px;font-size:12px;font-weight:600}
+.js-pill i{width:7px;height:7px;border-radius:50%;display:inline-block}
+.js-when{font-size:11.5px;color:#6b7280}
+.js-bar{display:flex;align-items:center;gap:10px;margin:8px 0 10px;flex-wrap:wrap}.js-bar span{font-size:12px;color:#6b7280}.js-bar .err-t{color:#b91c1c}
+@media (max-width:700px){
+  table.t tbody tr.pg-has{margin-bottom:0;border-bottom:0;border-radius:8px 8px 0 0}
+  table.t tbody tr.pg-row{display:block;margin-top:0;border-top:1px dashed var(--border);border-radius:0 0 8px 8px}tr.pg-row td{display:block;padding:8px 4px 10px!important}tr.pg-row td::before{display:none!important}
+  .pg-step{width:auto;flex:1 1 0;min-width:0}.pg-line{min-width:12px;margin-top:15px}.pg-ic{width:32px;height:32px}
+  .pg-t{font-size:11.5px}.pg-d{font-size:10.5px}
+}
+
 </style>
 </head>
 <body>
-<script>window.APP_PROJETO = 'Projeto 2 · Supabase'; window.APP_TESTE = false; window.APP_MODE = 'supabase'; window.APP_NOVIDADES = true; window.APP_VERSAO = '1.0'; window.APP_DEV = 'Welder Silva'; window.SUPA_URL = 'https://cnizuofynsncupgmjyej.supabase.co'; window.SUPA_KEY = 'sb_publishable_AGruF33Wg2CwB3s5Na9TiA_FV98BP3A';</script>
+<script>window.APP_PROJETO = 'Projeto 2 · Supabase'; window.APP_TESTE = false; window.APP_MODE = 'supabase'; window.APP_STATUS = true; window.APP_NOVIDADES = true; window.APP_VERSAO = '1.0'; window.APP_DEV = 'Welder Silva'; window.SUPA_URL = 'https://cnizuofynsncupgmjyej.supabase.co'; window.SUPA_KEY = 'sb_publishable_AGruF33Wg2CwB3s5Na9TiA_FV98BP3A';</script>
 <a class="skip" href="#main">Pular para o conteúdo</a>
 <header class="topbar">
   <div class="brand">Cadastro de Promoções<small>Clientes → Produtos → Condições → Revisão</small></div>
@@ -1892,7 +1920,7 @@ function compute() {
       if (isISODate(a.inicio) && isISODate(a.fim) && isISODate(b.inicio) && isISODate(b.fim) && a.inicio <= b.fim && b.inicio <= a.fim) {
         const same = a.inicio === b.inicio && a.fim === b.fim;
         const m = (o) => `${same ? 'Vigência igual à de outra condição' : 'Vigência sobreposta a outra condição'} (${fmtDate(o.inicio)} a ${fmtDate(o.fim)})`;
-        for (const [x, o] of [[list[i], b], [list[j], a]]) if (x.iv && !x.iv.fieldErr.inicio) x.iv.fieldErr.inicio = m(o);
+        for (const [x, o] of [[list[i], b], [list[j], a]]) if (x.iv) { const w = m(o) + ' — confira se é isso mesmo (não impede o envio).'; const fw = x.iv.fieldWarn; if (!fw.inicio) fw.inicio = w; else if (!fw.inicio.includes('outra condição')) fw.inicio += ' ' + w; }
       }
     }
   }
@@ -2148,7 +2176,7 @@ async function buildXlsx(file) {
 const REEMB_PADRAO = {"versao":1,"origem":"Tabela de investimentos enviada em 08/10/2026","colunasExtras":["TTV GYN","TTV INT GO","TTV TO","TTC GYN","TTC INT GO","TTC TO","MKP GYN","MKP INT GO","MKP TO"],"grupos":[{"n":1,"categoria":"REFRIGERANTES","produto":"Coca-Cola Original e Zero","embalagem":"2L","reembolso":0.1,"extras":{"TTV GYN":9.97,"TTV INT GO":10.07,"TTV TO":10.37,"TTC GYN":11.19,"TTC INT GO":11.49,"TTC TO":12.19,"MKP GYN":0.13,"MKP INT GO":0.15,"MKP TO":0.19}},{"n":2,"categoria":"REFRIGERANTES","produto":"Fanta Laranja, Uva, Sprite e Jesus","embalagem":"2L","reembolso":0.08,"extras":{"TTV GYN":6.34,"TTV INT GO":6.41,"TTV TO":6.59,"TTC GYN":7.39,"TTC INT GO":7.49,"TTC TO":7.79,"MKP GYN":0.18,"MKP INT GO":0.18,"MKP TO":0.2}},{"n":3,"categoria":"REFRIGERANTES","produto":"Kuat e Fanta Guaraná","embalagem":"2L","reembolso":0.08,"extras":{"TTV GYN":4.26,"TTV INT GO":4.31,"TTV TO":4.42,"TTC GYN":4.99,"TTC INT GO":5.09,"TTC TO":5.29,"MKP GYN":0.19,"MKP INT GO":0.2,"MKP TO":0.22}},{"n":4,"categoria":"REFRIGERANTES","produto":"Coca-Cola Original e Zero","embalagem":"2L REFPET","reembolso":0.1,"extras":{"TTV GYN":6.28,"TTV INT GO":6.35,"TTV TO":6.53,"TTC GYN":7.59,"TTC INT GO":7.69,"TTC TO":7.99,"MKP GYN":0.23,"MKP INT GO":0.23,"MKP TO":0.24}},{"n":5,"categoria":"REFRIGERANTES","produto":"Fanta Laranja","embalagem":"2L REFPET","reembolso":0.3,"extras":{"TTV GYN":5.03,"TTV INT GO":5.09,"TTV TO":5.23,"TTC GYN":5.99,"TTC INT GO":6.09,"TTC TO":6.39,"MKP GYN":0.27,"MKP INT GO":0.27,"MKP TO":0.3}},{"n":6,"categoria":"REFRIGERANTES","produto":"Coca-Cola Original e Zero","embalagem":"1L REFPET","reembolso":0.1,"extras":{"TTV GYN":3.49,"TTV INT GO":3.53,"TTV TO":3.62,"TTC GYN":4.29,"TTC INT GO":4.29,"TTC TO":4.39,"MKP GYN":0.27,"MKP INT GO":0.25,"MKP TO":0.25}},{"n":7,"categoria":"REFRIGERANTES","produto":"Fanta Laranja","embalagem":"1L REFPET","reembolso":0.1,"extras":{"TTV GYN":2.79,"TTV INT GO":2.82,"TTV TO":2.91,"TTC GYN":3.39,"TTC INT GO":3.49,"TTC TO":3.59,"MKP GYN":0.26,"MKP INT GO":0.28,"MKP TO":0.28}},{"n":8,"categoria":"REFRIGERANTES","produto":"Kuat Guaraná","embalagem":"1L REFPET","reembolso":0.1,"extras":{"TTV GYN":2.11,"TTV INT GO":2.14,"TTV TO":2.19,"TTC GYN":2.59,"TTC INT GO":2.59,"TTC TO":2.69,"MKP GYN":0.29,"MKP INT GO":0.27,"MKP TO":0.29}},{"n":9,"categoria":"REFRIGERANTES","produto":"Coca-Cola Original e Zero","embalagem":"1.5L","reembolso":0.25,"extras":{"TTV GYN":8.07,"TTV INT GO":8.15,"TTV TO":8.39,"TTC GYN":9.39,"TTC INT GO":9.49,"TTC TO":9.99,"MKP GYN":0.2,"MKP INT GO":0.2,"MKP TO":0.23}},{"n":10,"categoria":"REFRIGERANTES","produto":"Schweppes Citrus","embalagem":"1.5L","reembolso":0.8,"extras":{"TTV GYN":7.49,"TTV INT GO":7.57,"TTV TO":7.87,"TTC GYN":8.39,"TTC INT GO":8.49,"TTC TO":8.79,"MKP GYN":0.25,"MKP INT GO":0.25,"MKP TO":0.24}},{"n":11,"categoria":"REFRIGERANTES","produto":"Fanta Laranja, Uva e Sprite","embalagem":"1.5L","reembolso":0.25,"extras":{"TTV GYN":6.46,"TTV INT GO":6.53,"TTV TO":6.73,"TTC GYN":7.79,"TTC INT GO":7.89,"TTC TO":8.09,"MKP GYN":0.25,"MKP INT GO":0.26,"MKP TO":0.25}},{"n":12,"categoria":"REFRIGERANTES","produto":"Kuat e Fanta Guaraná","embalagem":"1.5L","reembolso":0.3,"extras":{"TTV GYN":5.25,"TTV INT GO":5.31,"TTV TO":5.47,"TTC GYN":6.39,"TTC INT GO":6.39,"TTC TO":6.59,"MKP GYN":0.29,"MKP INT GO":0.28,"MKP TO":0.27}},{"n":13,"categoria":"REFRIGERANTES","produto":"Coca-Cola Original e Zero","embalagem":"1L","reembolso":0.1,"extras":{"TTV GYN":5.9,"TTV INT GO":5.96,"TTV TO":6.13,"TTC GYN":6.89,"TTC INT GO":6.89,"TTC TO":7.29,"MKP GYN":0.19,"MKP INT GO":0.18,"MKP TO":0.21}},{"n":14,"categoria":"REFRIGERANTES","produto":"Fanta Laranja, Uva e Sprite","embalagem":"1L","reembolso":0.2,"extras":{"TTV GYN":4.72,"TTV INT GO":4.77,"TTV TO":4.91,"TTC GYN":5.69,"TTC INT GO":5.79,"TTC TO":5.99,"MKP GYN":0.26,"MKP INT GO":0.27,"MKP TO":0.27}},{"n":15,"categoria":"REFRIGERANTES","produto":"Kuat e Fanta Guaraná","embalagem":"1L","reembolso":0.2,"extras":{"TTV GYN":4.01,"TTV INT GO":4.05,"TTV TO":4.18,"TTC GYN":4.89,"TTC INT GO":4.89,"TTC TO":5.09,"MKP GYN":0.28,"MKP INT GO":0.27,"MKP TO":0.28}},{"n":16,"categoria":"REFRIGERANTES","produto":"Coca-Cola Original e Zero","embalagem":"600 ml","reembolso":0.1,"extras":{"TTV GYN":5.17,"TTV INT GO":5.23,"TTV TO":5.39,"TTC GYN":6.19,"TTC INT GO":6.19,"TTC TO":6.19,"MKP GYN":0.22,"MKP INT GO":0.21,"MKP TO":0.17}},{"n":17,"categoria":"REFRIGERANTES","produto":"Coca-Cola Original e Zero","embalagem":"350 ml","reembolso":0.1,"extras":{"TTV GYN":3.56,"TTV INT GO":3.6,"TTV TO":3.71,"TTC GYN":4.19,"TTC INT GO":4.29,"TTC TO":4.39,"MKP GYN":0.21,"MKP INT GO":0.23,"MKP TO":0.22}},{"n":18,"categoria":"REFRIGERANTES","produto":"Fanta Laranja, Uva, Sprite e Jesus","embalagem":"350 ml","reembolso":0.25,"extras":{"TTV GYN":3.2,"TTV INT GO":3.24,"TTV TO":3.38,"TTC GYN":3.59,"TTC INT GO":3.59,"TTC TO":4.09,"MKP GYN":0.22,"MKP INT GO":0.2,"MKP TO":0.31}},{"n":19,"categoria":"REFRIGERANTES","produto":"Kuat e Fanta Guaraná","embalagem":"350 ml","reembolso":0.25,"extras":{"TTV GYN":3.18,"TTV INT GO":3.22,"TTV TO":3.35,"TTC GYN":3.89,"TTC INT GO":3.89,"TTC TO":4.09,"MKP GYN":0.33,"MKP INT GO":0.31,"MKP TO":0.32}},{"n":20,"categoria":"REFRIGERANTES","produto":"Schweppes Citrus","embalagem":"350 ml","reembolso":0.5,"extras":{"TTV GYN":3.45,"TTV INT GO":3.49,"TTV TO":3.62,"TTC GYN":4.19,"TTC INT GO":4.19,"TTC TO":4.39,"MKP GYN":0.42,"MKP INT GO":0.4,"MKP TO":0.41}},{"n":21,"categoria":"REFRIGERANTES","produto":"Schweppes Tônica Original e Zero","embalagem":"350 ml","reembolso":0.5,"extras":{"TTV GYN":3.45,"TTV INT GO":3.49,"TTV TO":3.62,"TTC GYN":4.19,"TTC INT GO":4.19,"TTC TO":4.39,"MKP GYN":0.42,"MKP INT GO":0.4,"MKP TO":0.41}},{"n":22,"categoria":"STILL","produto":"Del Valle Frut (Todos os sabores)","embalagem":"1.5L","reembolso":0.2,"extras":{"TTV GYN":4.62,"TTV INT GO":4.67,"TTV TO":4.85,"TTC GYN":5.59,"TTC INT GO":5.69,"TTC TO":5.89,"MKP GYN":0.26,"MKP INT GO":0.27,"MKP TO":0.27}},{"n":23,"categoria":"STILL","produto":"Monster Energy (TODOS OS SABORES)","embalagem":"473ml","reembolso":0.25,"extras":{"TTV GYN":7.23,"TTV INT GO":7.31,"TTV TO":7.6,"TTC GYN":9.39,"TTC INT GO":9.49,"TTC TO":9.89,"MKP GYN":0.35,"MKP INT GO":0.34,"MKP TO":0.35}},{"n":24,"categoria":"STILL","produto":"POWERADE (TODOS OS SABORES)","embalagem":"500ML","reembolso":0.5,"extras":{"TTV GYN":4.34,"TTV INT GO":4.39,"TTV TO":4.5,"TTC GYN":5.39,"TTC INT GO":5.49,"TTC TO":5.59,"MKP GYN":0.4,"MKP INT GO":0.41,"MKP TO":0.4}},{"n":25,"categoria":"STILL","produto":"Kapo (Todos os Sabores)","embalagem":"200ml","reembolso":0.1,"extras":{"TTV GYN":1.89,"TTV INT GO":1.91,"TTV TO":1.99,"TTC GYN":2.29,"TTC INT GO":2.29,"TTC TO":2.39,"MKP GYN":0.28,"MKP INT GO":0.27,"MKP TO":0.26}},{"n":26,"categoria":"STILL","produto":"DV NÉCTAR (TODOS OS SABORES)","embalagem":"TP 1L","reembolso":0.5,"extras":{"TTV GYN":6.05,"TTV INT GO":6.12,"TTV TO":6.36,"TTC GYN":7.39,"TTC INT GO":7.49,"TTC TO":7.79,"MKP GYN":0.33,"MKP INT GO":0.33,"MKP TO":0.33}},{"n":27,"categoria":"ARTDs","produto":"Schweppes Mixed Lata","embalagem":"269 ml","reembolso":0.35,"extras":{"TTV GYN":4.44,"TTV INT GO":4.49,"TTV TO":4.44,"TTC GYN":5.99,"TTC INT GO":6.09,"TTC TO":5.99,"MKP GYN":0.46,"MKP INT GO":0.47,"MKP TO":0.46}},{"n":28,"categoria":"ARTDs","produto":"Schweppes Mixed Vidro","embalagem":"250 ml","reembolso":0.35,"extras":{"TTV GYN":6.03,"TTV INT GO":6.13,"TTV TO":6.51,"TTC GYN":8.19,"TTC INT GO":8.29,"TTC TO":8.49,"MKP GYN":0.44,"MKP INT GO":0.43,"MKP TO":0.38}},{"n":29,"categoria":"ARTDs","produto":"Sprite Absolut","embalagem":"269 ml","reembolso":0.35,"extras":{"TTV GYN":7.26,"TTV INT GO":7.34,"TTV TO":7.26,"TTC GYN":9.79,"TTC INT GO":9.89,"TTC TO":9.79,"MKP GYN":0.42,"MKP INT GO":0.41,"MKP TO":0.42}},{"n":30,"categoria":"ARTDs","produto":"Jack & Coke","embalagem":"350 ml","reembolso":0.35,"extras":{"TTV GYN":8.15,"TTV INT GO":8.15,"TTV TO":8.25,"TTC GYN":10.99,"TTC INT GO":11.09,"TTC TO":11.29,"MKP GYN":0.41,"MKP INT GO":0.42,"MKP TO":0.43}},{"n":31,"categoria":"ARTDs","produto":"Campari 748mL (01un.)","embalagem":"748 ml","reembolso":2.0,"extras":{"TTV GYN":39.99,"TTV INT GO":40.39,"TTV TO":39.99,"TTC GYN":51.99,"TTC INT GO":52.49,"TTC TO":51.99,"MKP GYN":0.37,"MKP INT GO":0.37,"MKP TO":0.37}},{"n":32,"categoria":"ARTDs","produto":"Campari 998mL (01un.)","embalagem":"998 ml","reembolso":2.0,"extras":{"TTV GYN":48.66,"TTV INT GO":49.15,"TTV TO":48.66,"TTC GYN":63.29,"TTC INT GO":52.49,"TTC TO":63.29,"MKP GYN":0.36,"MKP INT GO":0.11,"MKP TO":0.36}},{"n":33,"categoria":"ARTDs","produto":"Sagatiba Cristalina 700mL (01un.)","embalagem":"700 ml","reembolso":4.0,"extras":{"TTV GYN":32.88,"TTV INT GO":33.54,"TTV TO":30.85,"TTC GYN":37.99,"TTC INT GO":38.99,"TTC TO":34.99,"MKP GYN":0.32,"MKP INT GO":0.32,"MKP TO":0.3}},{"n":34,"categoria":"ARTDs","produto":"Skyy Vodka 980mL (01un.)","embalagem":"980 ml","reembolso":1.5,"extras":{"TTV GYN":36.34,"TTV INT GO":36.71,"TTV TO":35.99,"TTC GYN":44.99,"TTC INT GO":46.99,"TTC TO":44.99,"MKP GYN":0.29,"MKP INT GO":0.33,"MKP TO":0.3}},{"n":35,"categoria":"ARTDs","produto":"Skyy Vodka 750mL (01un.)","embalagem":"750 ml","reembolso":4.0,"extras":{"TTV GYN":31.8,"TTV INT GO":32.12,"TTV TO":41.8,"TTC GYN":37.99,"TTC INT GO":38.99,"TTC TO":"-","MKP GYN":0.37,"MKP INT GO":0.39,"MKP TO":"-"}}],"ean":{"7894900603705":25,"7894900650051":25,"7894900650044":25,"7894900563719":25,"7894900563702":25,"17894900650010":25,"7894900650013":25,"7894900573718":25,"7894900573701":25,"7894900583717":25,"7894900583700":25,"7894900593716":25,"7894900593709":25,"7898938890137":23,"7898938890113":23,"7898938890144":23,"7898938890120":23,"17894900503002":24,"7894900503029":24,"17894900500001":24,"7894900500035":24,"17894900509608":24,"7894900509601":24,"17894900504009":24,"7894900504002":24,"7894900502053":24,"7894900502046":24,"7894900508024":24,"7894900508017":24,"17894900501008":24,"7894900501001":24,"17894900337003":29,"7894900337006":29,"7896010006308":31,"7896010006315":32,"7894900019841":17,"7894900010015":17,"7894900010046":17,"7894900027006":9,"7894900011739":13,"7894900027044":13,"27894900027017":1,"7894900027013":1,"27894900014093":6,"7894900014099":6,"27894900027086":4,"7894900027082":4,"27894900011757":9,"7894900011753":9,"7894900019919":16,"7894900011609":16,"47894900700013":17,"7894900700015":17,"7894900700046":17,"7894900702071":9,"7894900701753":9,"17894900701712":13,"7894900701715":13,"7894900709926":1,"7894900701517":1,"7894900709919":16,"7894900701609":16,"27894900704215":4,"7894900704211":4,"17894900666523":22,"7894900666526":22,"17894900556060":22,"7894900556063":22,"17894900550068":22,"7894900550061":22,"7898164662669":26,"7894900660364":26,"17894900664048":26,"7894900664041":26,"17898341431634":26,"7898341430081":26,"17898341431658":26,"7898341430111":26,"7894900660357":26,"17894900664031":26,"7894900664034":26,"7898341430074":26,"17898341431603":26,"7898341430036":26,"17898341431580":26,"7898341430098":26,"7894900093001":19,"7894900093278":12,"7894900093056":3,"7894900039849":18,"7894900030013":18,"7894900030044":18,"7894900031751":11,"7894900031737":14,"7894900031713":14,"7894900039924":2,"7894900031515":2,"7894900034097":7,"7894900034226":5,"7894900034219":5,"7894900150018":18,"27894900151514":2,"7894900151510":2,"7894900059847":18,"7894900050011":18,"7894900051759":11,"7894900059922":2,"7894900051513":2,"7894900940220":18,"7894900940015":18,"17894900941514":2,"7894900941517":2,"7894900336528":30,"7894900336504":30,"7894900603712":25,"17894900650362":25,"7894900650365":25,"37894900910019":19,"7894900910018":19,"7894900911756":12,"7894900911732":15,"7894900911718":15,"7894900919929":3,"7894900911510":3,"17894900920014":19,"7894900920017":19,"70847022527":23,"70847022305":23,"1220000250024":23,"70847022015":23,"7898938890083":23,"7898938890076":23,"70847034810":23,"70847034803":23,"1220000250413":23,"1220000250406":23,"70847022534":23,"70847022022":23,"1220000250154":23,"1220000250147":23,"70847033318":23,"70847033301":23,"1220000250239":23,"1220000250222":23,"1220000250017":23,"1220000250000":23,"7898938890106":23,"7898938890090":23,"7898938890052":23,"7898938890045":23,"1220000250048":23,"1220000250031":23,"70847022220":23,"70847022206":23,"70847033936":23,"70847033929":23,"7898770420059":23,"7898770420042":23,"17894900509707":24,"7894900509700":24,"17894900509806":24,"7894900509809":24,"7894900509014":24,"7894900509007":24,"7894900506006":24,"17894900506003":24,"7896010000016":33,"7894900180510":20,"7894900180503":20,"17894900180548":10,"7894900180541":10,"17894900184072":27,"7894900184075":27,"7894900184013":28,"7894900184006":28,"17894900184904":27,"7894900184907":27,"17894900184379":27,"7894900184372":27,"7894900184310":28,"7894900184303":28,"7894900300017":21,"7894900360042":21,"7894900360011":21,"17894900184171":27,"7894900184174":27,"17894900184270":27,"7894900184273":27,"7894900184211":28,"7894900184204":28,"7896010004502":35,"7896010004007":34,"7894900680539":11,"7894900680522":11,"17894900681045":18,"7894900681017":18,"7894900060010":18,"27894900681271":11,"7894900681277":11,"17894900681069":2,"7894900681000":2,"7894900069839":18,"27894900061516":2,"7894900061512":2,"7898770420035":23,"7898770420011":23},"qtd":{"7894900650051":12,"7894900563719":12,"17894900650010":12,"7894900573718":12,"7894900583717":12,"7894900593716":12,"7898938890137":6,"7898938890113":12,"7898938890144":6,"17894900503002":6,"17894900500001":6,"17894900509608":6,"17894900504009":6,"7894900502053":6,"7894900508024":6,"17894900501008":6,"17894900337003":6,"17894900087007":6,"17894900087014":6,"17894900087045":6,"17894900087052":6,"17894900087069":6,"17894900087076":6,"17894900087083":6,"17894900087090":6,"17894900086000":6,"17894900086024":6,"17894900087106":6,"17894900087113":6,"17894900087120":6,"17894900087137":6,"7894900025026":6,"7894900010404":12,"7894900019841":12,"7894900010046":6,"27894900027093":12,"7894900011739":6,"27894900027024":6,"27894900027017":6,"27894900014093":12,"27894900027086":12,"27894900011757":6,"17894900012214":12,"17894900012047":12,"7894900019919":12,"27894900705113":12,"17894900700395":12,"47894900700013":12,"7894900700046":6,"7894900702071":6,"17894900701712":6,"17894900702214":12,"7894900709926":6,"7894900709919":12,"27894900704215":12,"17894900666523":6,"17894900666516":6,"17894900666509":6,"17894900556060":6,"17894900556039":6,"17894900556053":6,"17894900550068":6,"17894900550037":6,"17894900550136":12,"17894900550051":6,"7894900664072":6,"7894900664089":6,"7894900664096":6,"17894900664048":6,"17898341431634":6,"17898341431658":6,"17894900664031":6,"17894900660309":6,"17898341431627":6,"17898341431603":6,"17894900660422":18,"17898341431580":6,"17894900660439":18,"7894900096545":12,"17894900093381":12,"27894900035111":12,"7894900039849":12,"7894900030044":6,"7894900031737":6,"17894900032212":12,"7894900039924":6,"7894900034226":12,"27894900151514":6,"7894900059847":12,"17894900052210":12,"7894900059922":6,"27894900054211":12,"17894900097020":6,"7894900940220":6,"17894900941514":6,"17891098040852":6,"17891098041279":12,"27891098040835":12,"27891098041061":12,"17891098040906":6,"17891098041286":12,"27891098040880":12,"27891098041122":12,"7894900336542":6,"7894900336528":6,"7894900603712":12,"17894900650362":12,"27894900915116":12,"37894900910019":12,"7894900911732":6,"7894900912210":12,"7894900919929":6,"17894900920014":6,"70847022527":6,"1220000250024":6,"7898938890083":6,"70847034810":6,"1220000250413":6,"70847022534":6,"1220000250154":6,"70847033318":6,"1220000250239":6,"1220000250017":6,"7898938890106":6,"7898938890052":6,"1220000250048":6,"70847022220":6,"70847033936":6,"7898770420059":6,"17894900509707":6,"17894900509806":6,"7894900509014":6,"7894900506006":6,"1220000250062":6,"1220000250116":6,"1220000250086":6,"1220000250130":6,"7894900180510":6,"17894900180548":6,"17894900184072":6,"7894900184013":6,"17894900184904":6,"17894900184379":6,"7894900184310":6,"7894900360042":6,"17894900184171":6,"17894900184270":6,"7894900184211":6,"7894900680539":6,"17894900681045":12,"27894900681271":6,"7894900681192":12,"17894900681069":6,"37894900681247":12,"7894900069839":6,"27894900061516":6,"17898714832303":6,"7898770420035":6}};
 
 /* gerado por build/build.py */
-const APP_BUILD = '14/10/2026 20:39';
+const APP_BUILD = '19/10/2026 10:13';
 
 /* ===================== Servidor Google Apps Script: login, bases e solicitações =====================
    Substitui o armazenamento do claude.ai. Todas as permissões são conferidas no servidor (Code.gs):
@@ -2188,15 +2216,17 @@ function sessionExpired(msg) { if (sessionExpired.done) return; sessionExpired.d
 
 /* ---------- tela de login ---------- */
 /** Linha de versão: Projeto · Versão 1.0 (data) · Developer (quando definidos no build). */
+/** Rodapé curto do login (novidades): "Versão 1.0 · Developer Welder Silva", sem projeto e sem data. */
+function appVersaoLogin() { return window.APP_NOVIDADES && window.APP_VERSAO ? `Versão ${esc(window.APP_VERSAO)}${window.APP_DEV ? ' · Developer ' + esc(window.APP_DEV) : ''}${window.APP_TESTE ? ' · TESTE' : ''}` : appVersaoTxt(); }
 function appVersaoTxt() { const pj = window.APP_PROJETO ? esc(window.APP_PROJETO) + ' · ' : ''; return window.APP_VERSAO ? `${pj}Versão ${esc(window.APP_VERSAO)} (${esc(APP_BUILD)})${window.APP_DEV ? ' · Developer ' + esc(window.APP_DEV) : ''}` : `${pj}Versão ${esc(APP_BUILD)}`; }
 function authScreen(html) {
   let el = $('#auth'); if (!el) { el = document.createElement('div'); el.id = 'auth'; el.className = 'auth-bg'; document.body.appendChild(el); }
   if (typeof TEMA !== 'undefined' && TEMA.painel) {
     el.innerHTML = `<div class="auth-card auth-split" role="dialog" aria-modal="true" aria-labelledby="auth-title"><div class="auth-panel" style="background-image:url('${TEMA.painel}')" aria-hidden="true"></div>`
       + `<div class="auth-main"><svg class="auth-wave" viewBox="0 0 520 70" preserveAspectRatio="none" aria-hidden="true"><path d="M0 0 C150 0 260 6 380 34 C440 48 490 60 520 64 L520 0 Z" fill="#e00b1c"/><path d="M0 0 C170 2 280 16 400 46 C450 58 495 66 520 68 L520 64 C490 60 440 48 380 34 C260 6 150 0 0 0 Z" fill="#b0040f" opacity=".55"/></svg>`
-      + `<div class="auth-eyebrow">Cadastro de promoções</div>${html}<div class="auth-lock">🔒 Acesso restrito a usuários autorizados.</div><div class="auth-ver">${appVersaoTxt()}</div></div></div>`;
+      + `<div class="auth-eyebrow">Cadastro de promoções</div>${html}${window.APP_NOVIDADES ? '' : '<div class="auth-lock">🔒 Acesso restrito a usuários autorizados.</div>'}<div class="auth-ver" title="${esc(appVersaoTxt().replace(/<[^>]*>/g, ''))}">${appVersaoLogin()}</div></div></div>`;
   } else {
-    el.innerHTML = `<div class="auth-card" role="dialog" aria-modal="true" aria-labelledby="auth-title"><div class="auth-brand">Cadastro de Promoções</div>${html}<div class="auth-ver">${appVersaoTxt()}</div></div>`;
+    el.innerHTML = `<div class="auth-card" role="dialog" aria-modal="true" aria-labelledby="auth-title"><div class="auth-brand">Cadastro de Promoções</div>${html}<div class="auth-ver">${appVersaoLogin()}</div></div>`;
   }
   el.hidden = false; return el;
 }
@@ -3159,14 +3189,14 @@ ACTIONS['prod-add-one'] = (el) => {
   const cc = compatClients(p).map((c) => c.key); if (!cc.length) { toast('Adicione clientes antes dos produtos.', 'warn'); return; }
   const again = S.draft.items.some((i) => i.productKey === p.key);
   const it = newItem(p, cc); S.draft.items.push(it); UI.prodSel.delete(p.key); touchDraft();
-  if (again) toast(`Nova condição para ${p.descricao}: use uma vigência que não coincida com a já existente.`, 'warn');
+  if (again) toast(`Nova condição para ${p.descricao}: se a vigência coincidir com a já existente, o app só avisa (não impede o envio).`, 'warn');
   $('#catalog').innerHTML = renderCatalog(); $('#items-card').innerHTML = renderItemsList(); refreshStepper();
   openQuickCond(it.id);
 };
 ACTIONS['prod-add'] = async () => {
   const keys = Array.from(UI.prodSel); const prods = keys.map((k) => IDX.produtos.get(k)).filter(Boolean);
   const dup = prods.filter((p) => S.draft.items.some((i) => i.productKey === p.key));
-  if (dup.length && !(await confirmBox('Produto já na solicitação', `<p>${dup.length} produto(s) já estão na solicitação. Adicionar novamente cria uma nova condição para o mesmo produto. A vigência da nova condição não pode coincidir, nem em parte, com a já preenchida para os mesmos clientes.</p>`, 'Adicionar mesmo assim'))) return;
+  if (dup.length && !(await confirmBox('Produto já na solicitação', `<p>${dup.length} produto(s) já estão na solicitação. Adicionar novamente cria uma nova condição para o mesmo produto. Se a vigência coincidir com a já preenchida para os mesmos clientes, o app mostra um aviso, mas não impede o envio.</p>`, 'Adicionar mesmo assim'))) return;
   const added = []; let partial = 0;
   for (const p of prods) {
     const cc = compatClients(p).map((c) => c.key); if (!cc.length) continue;
@@ -5073,6 +5103,112 @@ if (window.APP_NOVIDADES) {
         ${d.meta && d.meta.observacoes ? `<p class="small" style="margin-top:12px"><b>Observações:</b> ${esc(d.meta.observacoes)}</p>` : ''}</div>`,
       footer: `<div class="btn-row" style="justify-content:flex-end;width:100%">${reap}<button class="btn primary" data-act="modal-close">Fechar</button></div>` });
   };
+}
+
+/* ===================== Projeto 2 (TESTE): andamento do cadastro com o status do Jira =====================
+   Solicitação enviada  = Administração baixou o Excel ou enviou ao Jira
+   Cadastro iniciado    = chamado no Jira passou para "In Progress"
+   Cadastro finalizado  = chamado no Jira passou para "Resolvido"
+   A função "jira-status" do Supabase consulta o Jira (sozinha a cada 30 min com a tela aberta, ou no botão).
+   No ambiente de teste o Jira é simulado: o botão avança um passo por clique. */
+if (window.APP_STATUS) {
+  const JS = { rodando: false, ult: 0, tentou: 0, intervalo: 30 * 60 * 1000, erro: '' };
+  try { JS.ult = Number(localStorage.getItem('promo:jira-status-ult') || 0) || 0; } catch (e) { /* sem storage */ }
+  const IC = {
+    send: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4 20-7z"/></svg>',
+    start: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 3v2h6V3"/><path d="M9 11h6M9 15h4"/></svg>',
+    done: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>',
+  };
+  const dh = (ms) => { const s = fmtDateTime(ms); return s ? s.slice(0, 5) + ' às ' + s.slice(11, 16) : ''; };
+
+  /** Etapas da solicitação: [{ t, lvl: 'ok'|'now'|'', d }] */
+  function etapas(t) {
+    const j = t.jira || {}; const st = j.status || {};
+    const baixou = Array.isArray(t.arquivos) && t.arquivos.length;
+    const enviadoEm = Math.min(...[j.key ? j.enviadoEm : null, baixou ? t.atendidoEm : null].filter(Boolean).concat([Infinity]));
+    const e1 = !!(j.key || baixou);
+    const e2 = e1 && !!(st.iniciadoEm || st.etapa === 'iniciado' || st.etapa === 'finalizado');
+    const e3 = e2 && st.etapa === 'finalizado';
+    const d1 = e1 ? (isFinite(enviadoEm) ? dh(enviadoEm) : '') + (j.key ? '' : ' · Excel baixado') : 'Aguardando a Administração';
+    const d2 = e2 ? `${esc(j.key)} · ${dh(st.iniciadoEm || st.em)}` : (!e1 ? 'Aguardando' : (j.key ? `${esc(j.key)} · aguardando In Progress` : 'Sem chamado no Jira'));
+    const d3 = e3 ? 'Concluído ' + dh(st.finalizadoEm || st.em) : 'Aguardando';
+    return [
+      { k: 'send', t: 'Solicitação enviada', lvl: e1 ? 'ok' : 'now', d: d1 },
+      { k: 'start', t: 'Cadastro iniciado', lvl: e2 ? 'ok' : (e1 && j.key ? 'now' : ''), d: d2 },
+      { k: 'done', t: 'Cadastro finalizado', lvl: e3 ? 'ok' : (e2 ? 'now' : ''), d: d3 },
+    ];
+  }
+  function andamentoHtml(t) {
+    const e = etapas(t);
+    const linha = (a, b) => `<div class="pg-line ${a.lvl === 'ok' && b.lvl === 'ok' ? 'ok' : (a.lvl === 'ok' ? 'half' : '')}"></div>`;
+    const passo = (x) => `<div class="pg-step ${x.lvl}"><div class="pg-ic">${IC[x.k]}</div><div class="pg-t">${x.t}</div><div class="pg-d">${x.d}</div></div>`;
+    return `<div class="pg-head">Andamento do cadastro</div><div class="pg" role="list" aria-label="Andamento do cadastro">${passo(e[0])}${linha(e[0], e[1])}${passo(e[1])}${linha(e[1], e[2])}${passo(e[2])}</div>`;
+  }
+  window.andamentoHtml = andamentoHtml;
+
+  /* chip do status atual do Jira junto ao número do chamado */
+  const _chip = jiraChip;
+  jiraChip = function (t) {
+    let h = _chip(t); const st = t && t.jira && t.jira.status; if (!h || !st || !st.nome) return h;
+    const c = st.etapa === 'finalizado' ? ['#e7f7ee', '#11733f'] : (st.etapa === 'iniciado' ? ['#fff4d6', '#8a5a00'] : ['#eef0f3', '#4b5563']);
+    return h + `<div class="js-row"><span class="js-pill" style="background:${c[0]};color:${c[1]}"><i style="background:${c[1]}"></i>${esc(st.nome)}</span>${st.em ? `<span class="js-when">desde ${esc(fmtDateTime(st.em).slice(0, 16))}</span>` : ''}</div>`;
+  };
+
+  function barraHtml() {
+    const ult = JS.ult ? `última consulta: ${fmtDateTime(JS.ult).slice(0, 16)}` : 'ainda não consultado neste navegador';
+    return `<div class="js-bar"><button class="btn sm" data-act="jira-status-atualizar" ${JS.rodando ? 'disabled' : ''}>${JS.rodando ? 'Consultando o Jira…' : '⟳ Atualizar status do Jira'}</button>
+      <span>${window.APP_TESTE ? 'Teste: cada clique avança um passo do Jira simulado' : 'Atualiza sozinho a cada 30 min'} · ${ult}${JS.erro ? ` · <b class="err-t">${esc(JS.erro)}</b>` : ''}</span></div>`;
+  }
+  /** Coloca a faixa de andamento abaixo de cada solicitação da tabela e a barra de atualização no topo. */
+  function decorar(root, ancora) {
+    if (!root) return;
+    root.querySelectorAll('tbody tr').forEach((tr) => {
+      if (tr.classList.contains('pg-row') || tr.classList.contains('pg-has')) return;
+      const b = tr.querySelector('[data-id]'); if (!b) return;
+      const t = findTicket(b.dataset.id, b.dataset.uid || undefined); if (!t || !t.shared) return;
+      tr.classList.add('pg-has');
+      tr.insertAdjacentHTML('afterend', `<tr class="pg-row"><td colspan="${tr.children.length}">${andamentoHtml(t)}</td></tr>`);
+    });
+    const a = ancora && root.querySelector(ancora);
+    if (a && !root.querySelector('.js-bar')) a.insertAdjacentHTML('afterend', barraHtml());
+  }
+  const _mine = renderMyTickets;
+  renderMyTickets = function () { _mine(); decorar($('#view-tickets'), '.card-head'); auto(); };
+  const _adm = renderAdmin;
+  renderAdmin = function () { _adm(); if (S.adminTab === 'chamados') { decorar($('#admin-body'), '.tabs'); auto(); } };
+
+  async function simularPasso() { // ambiente de teste: avança cada chamado simulado um passo
+    const ch = (await rpc('sol_jira_chaves')) || []; const agora = Date.now(); const itens = [];
+    for (const c of ch) {
+      if (!c.simulado) continue;
+      const t = findTicket(c.id) || ticketsAll().find((x) => x.id === c.id) || {}; const st = (t.jira && t.jira.status) || {};
+      if (!st.etapa || st.etapa === 'aguardando') itens.push({ id: c.id, key: c.key, status: { nome: 'In Progress', cat: 'INDETERMINATE', em: agora, etapa: 'iniciado', iniciadoEm: agora } });
+      else if (st.etapa === 'iniciado') itens.push({ id: c.id, key: c.key, status: { nome: 'Resolvido', cat: 'DONE', em: agora, etapa: 'finalizado', iniciadoEm: st.iniciadoEm || agora, finalizadoEm: agora } });
+    }
+    if (itens.length) await rpc('sol_jira_status_gravar', { p_itens: itens });
+    return { consultados: ch.length, gravados: itens.length, falhas: [] };
+  }
+  async function consultar() {
+    const tok = await supaAccess(false);
+    const r = await supaHttp('/functions/v1/jira-status', { method: 'POST', headers: { apikey: SUPA.key, Authorization: 'Bearer ' + tok, 'Content-Type': 'application/json' }, body: '{}' });
+    if (r.status === 404) throw new Error('a função "jira-status" ainda não foi criada no Supabase');
+    if (!r.ok) throw new Error((r.body && (r.body.erro || r.body.message)) || 'falha ao consultar o Jira (' + r.status + ')');
+    return r.body;
+  }
+  async function atualizar(manual) {
+    if (JS.rodando || !SH.supa) return; JS.rodando = true; JS.tentou = Date.now(); JS.erro = ''; redesenhar();
+    try {
+      const r = window.APP_TESTE ? await simularPasso() : await consultar();
+      JS.ult = Date.now(); try { localStorage.setItem('promo:jira-status-ult', String(JS.ult)); } catch (e) { /* ok */ }
+      await pollTickets();
+      if (manual) toast(r.consultados ? `Status do Jira atualizado: ${plural(r.consultados, 'chamado consultado', 'chamados consultados')}${r.falhas && r.falhas.length ? ` · ${r.falhas.length} sem resposta` : ''}.` : 'Nenhum chamado em andamento para consultar.', r.falhas && r.falhas.length ? 'warn' : 'ok');
+    } catch (e) { JS.erro = 'Jira: ' + e.message; if (manual) toast('Não foi possível consultar o Jira: ' + e.message, 'err'); }
+    finally { JS.rodando = false; redesenhar(); }
+  }
+  function redesenhar() { if (S.view === 'tickets') renderMyTickets(); else if (S.view === 'admin' && S.adminTab === 'chamados') renderAdmin(); }
+  function auto() { if (!window.APP_TESTE && SH.supa && !JS.rodando && Date.now() - Math.max(JS.ult, JS.tentou) > JS.intervalo) setTimeout(() => atualizar(false), 1500); }
+  ACTIONS['jira-status-atualizar'] = () => atualizar(true);
+  setInterval(() => { if (!document.hidden && (S.view === 'tickets' || (S.view === 'admin' && S.adminTab === 'chamados'))) auto(); }, 5 * 60 * 1000);
 }
 
 init().catch((e) => { console.error(e); if (window.__diagShow) window.__diagShow(String(e && e.message || e)); });
