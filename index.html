@@ -655,10 +655,16 @@ tr.pg-has td{border-bottom:0!important}
   .pg-t{font-size:11.5px}.pg-d{font-size:10.5px}
 }
 
+/* finalizado há mais de 24 h: só "Cadastrado" */
+tr.pg-row.pg-row-mini td{padding:0 14px 10px!important}
+.pg-mini{display:inline-flex;align-items:center;gap:8px;background:#e7f7ee;color:#11733f;border:1px solid #bfe8cf;border-radius:999px;padding:4px 12px 4px 6px;font-size:13px;line-height:1.2;max-width:100%;flex-wrap:wrap}
+.pg-mini-ic{display:inline-flex;width:22px;height:22px;border-radius:50%;background:#2fbf71;color:#fff;align-items:center;justify-content:center}.pg-mini-ic svg{width:13px;height:13px}
+.pg-mini-d{color:#3f7a57;font-size:12px}
+
 </style>
 </head>
 <body>
-<script>window.APP_PROJETO = 'Projeto 2 · Supabase'; window.APP_TESTE = false; window.APP_MODE = 'supabase'; window.APP_STATUS = true; window.APP_NOVIDADES = true; window.APP_VERSAO = '1.0'; window.APP_DEV = 'Welder Silva'; window.SUPA_URL = 'https://cnizuofynsncupgmjyej.supabase.co'; window.SUPA_KEY = 'sb_publishable_AGruF33Wg2CwB3s5Na9TiA_FV98BP3A';</script>
+<script>window.APP_PROJETO = 'Projeto 2 · Supabase'; window.APP_TESTE = false; window.APP_MODE = 'supabase'; window.APP_STATUS = true; window.APP_NOVIDADES = true; window.APP_VERSAO = '2.0'; window.APP_DEV = 'Welder Silva'; window.SUPA_URL = 'https://cnizuofynsncupgmjyej.supabase.co'; window.SUPA_KEY = 'sb_publishable_AGruF33Wg2CwB3s5Na9TiA_FV98BP3A';</script>
 <a class="skip" href="#main">Pular para o conteúdo</a>
 <header class="topbar">
   <div class="brand">Cadastro de Promoções<small>Clientes → Produtos → Condições → Revisão</small></div>
@@ -5138,7 +5144,11 @@ if (window.APP_STATUS) {
       { k: 'done', t: 'Cadastro finalizado', lvl: e3 ? 'ok' : (e2 ? 'now' : ''), d: d3 },
     ];
   }
+  const DIA = 24 * 60 * 60 * 1000;
+  /** Finalizado há mais de 24 h: mostra só "Cadastrado" (card menor). */
+  function cadastradoHa24h(t) { const st = (t.jira || {}).status || {}; const fim = st.finalizadoEm || st.em; return st.etapa === 'finalizado' && fim && Date.now() - fim > DIA; }
   function andamentoHtml(t) {
+    if (cadastradoHa24h(t)) { const st = t.jira.status; return `<div class="pg-mini" role="status"><span class="pg-mini-ic">${IC.done}</span><b>Cadastrado</b><span class="pg-mini-d">${esc(t.jira.key || '')}${t.jira.key ? ' · ' : ''}finalizado em ${dh(st.finalizadoEm || st.em)}</span></div>`; }
     const e = etapas(t);
     const linha = (a, b) => `<div class="pg-line ${a.lvl === 'ok' && b.lvl === 'ok' ? 'ok' : (a.lvl === 'ok' ? 'half' : '')}"></div>`;
     const passo = (x) => `<div class="pg-step ${x.lvl}"><div class="pg-ic">${IC[x.k]}</div><div class="pg-t">${x.t}</div><div class="pg-d">${x.d}</div></div>`;
@@ -5165,9 +5175,9 @@ if (window.APP_STATUS) {
     root.querySelectorAll('tbody tr').forEach((tr) => {
       if (tr.classList.contains('pg-row') || tr.classList.contains('pg-has')) return;
       const b = tr.querySelector('[data-id]'); if (!b) return;
-      const t = findTicket(b.dataset.id, b.dataset.uid || undefined); if (!t || !t.shared) return;
+      const t = findTicket(b.dataset.id, b.dataset.uid || undefined); if (!t || !t.shared || !(t.jira && t.jira.key)) return;   // só solicitações enviadas ao Jira pela API
       tr.classList.add('pg-has');
-      tr.insertAdjacentHTML('afterend', `<tr class="pg-row"><td colspan="${tr.children.length}">${andamentoHtml(t)}</td></tr>`);
+      tr.insertAdjacentHTML('afterend', `<tr class="pg-row${cadastradoHa24h(t) ? ' pg-row-mini' : ''}"><td colspan="${tr.children.length}">${andamentoHtml(t)}</td></tr>`);
     });
     const a = ancora && root.querySelector(ancora);
     if (a && !root.querySelector('.js-bar')) a.insertAdjacentHTML('afterend', barraHtml());
