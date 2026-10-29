@@ -513,7 +513,7 @@ main{max-width:1440px;padding:22px 28px 90px}
 .auth-split .auth-ver{margin-top:8px}
 @media (max-width:820px){.auth-card.auth-split{grid-template-columns:1fr;max-width:460px}.auth-panel{min-height:0;aspect-ratio:16/9;background-position:center 30%}.auth-main{padding:48px 24px 26px}.auth-split h1{font-size:30px}}
 .topbar .save-ind{display:none}
-.jira-btn{border-color:#0052cc;color:#0052cc}.jira-btn:hover{background:#e9f2ff}.jira-chip{margin-top:4px}
+.jira-btn:not(.primary){border-color:#0052cc;color:#0052cc}.jira-btn:not(.primary):hover{background:#e9f2ff}.jira-chip{margin-top:4px}
 .teste-banner{position:sticky;top:0;z-index:40;background:#ffd400;color:#3d2e00;text-align:center;padding:6px 12px;font-size:13.5px;display:flex;gap:12px;justify-content:center;align-items:center;flex-wrap:wrap}
 html.app-teste .topbar{top:34px}
 html.app-teste .auth-bg::before{content:"AMBIENTE DE TESTE";position:fixed;top:0;left:0;right:0;background:#ffd400;color:#3d2e00;text-align:center;font:700 14px/32px "Segoe UI",sans-serif;letter-spacing:.12em;z-index:2}
@@ -663,10 +663,41 @@ tr.pg-row.pg-row-mini td{padding:0 14px 10px!important}
 .pg-mini-ic{display:inline-flex;width:22px;height:22px;border-radius:50%;background:#2fbf71;color:#fff;align-items:center;justify-content:center}.pg-mini-ic svg{width:13px;height:13px}
 .pg-mini-d{color:#3f7a57;font-size:12px}
 
+/* Dashboard da Administração (Projeto 2) */
+.db{--db-red:var(--primary);--db-dark:#374151;--db-or:#f59e0b}
+.db h1{margin:0}.db-top{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.db-flt{display:flex;gap:8px;flex-wrap:wrap;align-items:flex-end}.db-flt label{display:flex;flex-direction:column;font-size:12px;color:var(--muted);gap:3px}
+.db-flt select{padding:6px 8px;border:1px solid var(--border);border-radius:8px;background:var(--surface);font:inherit;font-size:13px;max-width:190px}
+.db-kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:12px}.db-kpis.db-k2{grid-template-columns:repeat(6,1fr)}
+.db-k{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 16px;min-width:0}
+.db-k small{display:block;font-size:11px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+.db-k b{display:block;font-size:30px;font-weight:800;margin:4px 0 2px;letter-spacing:-.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.db-k2 .db-k b{font-size:24px}
+.db-k span{font-size:12px;color:var(--muted)}.db-k.red b{color:var(--db-red)}
+.db-up{color:#11733f!important}.db-dn{color:#c2410c!important}.db-mut{color:var(--muted)}
+.db-g2{display:grid;grid-template-columns:1.25fr 1fr;gap:12px;margin-bottom:12px}.db-g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:12px}.db-g3b{grid-template-columns:1.3fr 1fr 1fr}
+.db-c{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 16px;min-width:0}.db-c h3{font-size:15px;margin:0 0 2px}.db-s{font-size:12px;color:var(--muted);margin:0 0 10px}
+.db-br{display:grid;grid-template-columns:minmax(80px,38%) 1fr 40px;align-items:center;gap:8px;margin:6px 0;font-size:13px}.db-br span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.db-bt{height:12px;background:#f1f3f6;border-radius:6px;overflow:hidden}.db-bt i{display:block;height:100%;background:var(--db-red);border-radius:6px}.db-bt i.g{background:var(--db-dark)}.db-bt i.o{background:var(--db-or)}
+.db-br b{text-align:right;font-variant-numeric:tabular-nums}
+.db-gl{stroke:#eef0f3}.db-ax{font-size:11px;fill:#6b7280}.db-l{fill:none;stroke-width:3}.db-l.a{stroke:var(--db-red)}.db-l.s{stroke:var(--db-dark)}.db-d.a{fill:var(--db-red)}.db-d.s{fill:var(--db-dark)}
+.db-meta{stroke-dasharray:5 4;opacity:.55}.db-meta.a{stroke:var(--db-red)}.db-meta.s{stroke:var(--db-dark)}.db-metat{font-size:11px}.db-metat.a{fill:var(--db-red)}.db-metat.s{fill:var(--db-dark)}
+.db-lab{font-size:12px;font-weight:700}.db-lab.a{fill:var(--db-red)}.db-lab.s{fill:var(--db-dark)}
+.db-leg{display:flex;gap:16px;font-size:12px}.db-leg i{display:inline-block;width:12px;height:4px;border-radius:2px;margin-right:6px;vertical-align:middle}.db-leg i.a{background:var(--db-red)}.db-leg i.s{background:var(--db-dark)}
+.db-vb{display:flex;align-items:flex-end;gap:6px;height:190px;padding-top:22px}.db-vc{flex:1;display:flex;flex-direction:column;align-items:center;height:100%;justify-content:flex-end;min-width:0}
+.db-vc i{width:100%;background:linear-gradient(#ff5470,var(--db-red));border-radius:5px 5px 0 0;position:relative}.db-vc i b{position:absolute;top:-17px;left:-4px;right:-4px;text-align:center;font-size:11px}.db-vc span{font-size:10px;color:var(--muted);margin-top:5px}
+.db-t{width:100%;border-collapse:collapse;font-size:13px}.db-t th{text-align:left;color:var(--muted);font-weight:600;font-size:12px;padding:6px 4px;border-bottom:1px solid var(--border)}.db-t td{padding:7px 4px;border-bottom:1px solid #f1f3f6}
+.db-pill{padding:2px 8px;border-radius:999px;font-size:12px;font-weight:600}.db-pill.ok{background:#e7f7ee;color:#11733f}.db-pill.wa{background:#fff4d6;color:#8a5a00}.db-pill.ba{background:#fde8e8;color:#b42318}
+.db-don{display:flex;align-items:center;gap:14px;flex-wrap:wrap}.db-don ul{list-style:none;padding:0;margin:0;font-size:13px;flex:1;min-width:170px}.db-don li{margin:6px 0;display:flex;gap:7px;align-items:center}
+.db-don li i{width:10px;height:10px;border-radius:3px;flex:none}.db-don li b{margin-left:auto}.db-don li em{font-style:normal;color:var(--muted);width:34px;text-align:right}.db-dt{font-size:22px;font-weight:800;fill:var(--text)}
+.db-vazio{color:var(--muted);font-size:13px}
+@media (max-width:1300px){.db-kpis,.db-kpis.db-k2{grid-template-columns:repeat(3,1fr)}.db-g3,.db-g3b{grid-template-columns:1fr 1fr}}
+@media (max-width:900px){.db-g2,.db-g3,.db-g3b{grid-template-columns:1fr}.db-kpis,.db-kpis.db-k2{grid-template-columns:1fr 1fr}.db-k b{font-size:24px}}
+.db-wide .db-br{grid-template-columns:minmax(120px,60%) 1fr 34px;font-size:12px}
+
 </style>
 </head>
 <body>
-<script>window.APP_PROJETO = 'Projeto 2 · Supabase'; window.APP_TESTE = false; window.APP_MODE = 'supabase'; window.APP_STATUS = true; window.APP_NOVIDADES = true; window.APP_VERSAO = '2.0'; window.APP_DEV = 'Welder Silva'; window.SUPA_URL = 'https://cnizuofynsncupgmjyej.supabase.co'; window.SUPA_KEY = 'sb_publishable_AGruF33Wg2CwB3s5Na9TiA_FV98BP3A';</script>
+<script>window.APP_PROJETO = 'Projeto 2 · Supabase'; window.APP_TESTE = false; window.APP_MODE = 'supabase'; window.APP_STATUS = true; window.APP_JIRA_PERM = true; window.APP_NOVIDADES = true; window.APP_VERSAO = '2.0'; window.APP_DEV = 'Welder Silva'; window.SUPA_URL = 'https://cnizuofynsncupgmjyej.supabase.co'; window.SUPA_KEY = 'sb_publishable_AGruF33Wg2CwB3s5Na9TiA_FV98BP3A';</script>
 <a class="skip" href="#main">Pular para o conteúdo</a>
 <header class="topbar">
   <div class="brand">Cadastro de Promoções<small>Clientes → Produtos → Condições → Revisão</small></div>
@@ -3557,13 +3588,14 @@ const ADMIN_TABS = [
   ['chamados', 'Solicitações'], ['bases', 'Bases'], ['tipos', 'Segmento → Tipo'], ['invest', 'Investimentos'], ['consulta', 'Consulta e conflitos'],
   ['excecoes', 'Exceções'], ['exportacao', 'Exportar Excel'], ['backup', 'Backup e ambiente'],
 ];
+const ADMIN_EXTRA = {}; // seções extras (ex.: Dashboard no Projeto 2) → função que devolve o HTML
 let IMP = null; // estado da importação em andamento
 function adminTabs() { return SH.gas ? ADMIN_TABS.slice(0, 5).concat([['usuarios', 'Usuários e senhas']], ADMIN_TABS.slice(5)) : ADMIN_TABS; }
 function renderAdmin() {
-  const root = $('#view-admin'); if (S.adminTab === 'usuarios' && !SH.gas) S.adminTab = 'bases';
+  const root = $('#view-admin'); if (S.adminTab === 'usuarios' && !SH.gas) S.adminTab = 'bases'; if (!adminTabs().some(([k]) => k === S.adminTab)) S.adminTab = 'chamados';
   root.innerHTML = `<div class="alert info small">${SH.gas ? 'Administração: bases, configuração e solicitações de todos. Usuários, perfis e senhas são gerenciados em Usuários e senhas.' : sharedActive() ? 'Página compartilhada: bases, configuração e solicitações ficam no armazenamento da página. Só quem tem acesso de Editor (ou é o dono) vê a Administração e altera bases e configuração; o time comercial precisa de acesso de Colaborador para enviar solicitações.' : 'Cópia local: não há autenticação nem permissões reais e não há sincronização entre computadores; solicitações são transferidas por arquivo JSON.'}</div>
   <div class="admin-layout"><nav class="side-nav" aria-label="Seções da administração">${adminTabs().map(([k, l]) => `<button data-act="admin-tab" data-tab="${k}" ${S.adminTab === k ? 'aria-current="page"' : ''}>${l}${k === 'chamados' ? ` <span class="badge" ${ticketsAll().filter((t) => t.status === 'novo').length ? '' : 'hidden'}>${ticketsAll().filter((t) => t.status === 'novo').length}</span>` : ''}</button>`).join('')}</nav>
-  <div id="admin-body">${({ bases: renderAdminBases, tipos: renderAdminTipos, invest: renderAdminInvest, consulta: renderAdminConsulta, chamados: renderAdminTickets, excecoes: renderAdminExceptions, exportacao: renderAdminExport, backup: renderAdminBackup, usuarios: renderAdminUsers })[S.adminTab]()}</div></div>`;
+  <div id="admin-body">${({ bases: renderAdminBases, tipos: renderAdminTipos, invest: renderAdminInvest, consulta: renderAdminConsulta, chamados: renderAdminTickets, excecoes: renderAdminExceptions, exportacao: renderAdminExport, backup: renderAdminBackup, usuarios: renderAdminUsers, ...ADMIN_EXTRA })[S.adminTab]()}</div></div>`;
 }
 ACTIONS['admin-tab'] = (el) => { S.adminTab = el.dataset.tab; renderAdmin(); const b = $(`.side-nav [data-tab="${S.adminTab}"]`); if (b) b.focus(); };
 
@@ -4592,6 +4624,7 @@ ACTIONS['send-ticket'] = async () => {
 function renderAdminTickets() {
   const all = ticketsAll(); const f = TK.filtro;
   const list = all.filter((t) => f === 'todos' || (f === 'abertos' ? ['novo', 'em_analise', 'em_edicao'].includes(t.status) : t.status === f));
+  if (f === 'atendido') list.sort((x, y) => (y.atendidoEm || queueTime(y)) - (x.atendidoEm || queueTime(x)));   // atendidas: mais novas primeiro
   let pos = 0; const fila = new Map(all.filter((t) => ['novo', 'em_analise'].includes(t.status)).map((t) => [t, ++pos]));
   const count = (st_) => all.filter((t) => st_.includes(t.status)).length;
   const fb = (k, l, n) => `<button role="tab" aria-selected="${f === k}" data-act="tk-filter" data-f="${k}">${l} (${n})</button>`;
@@ -4603,7 +4636,7 @@ function renderAdminTickets() {
   <div class="card">${list.length ? `<div class="table-wrap tall"><table class="t"><thead><tr><th class="num">Fila</th><th>Último envio</th><th>Solicitante</th><th>Situação</th><th>Conteúdo</th><th>Pendências</th><th>Ações</th></tr></thead><tbody>
     ${list.map((t) => `<tr><td class="num">${fila.has(t) ? `<b>${fila.get(t)}º</b>` : '<span class="muted">—</span>'}</td>${ticketRowCommon(t)}<td><div class="btn-row">
       <button class="btn sm" data-act="tk-preview" data-id="${esc(t.id)}" data-uid="${esc(t.uid || '')}">Prévia</button>
-      <button class="btn sm primary" data-act="tk-excel" data-id="${esc(t.id)}" data-uid="${esc(t.uid || '')}">Baixar Excel</button>${typeof jiraBotao === 'function' ? jiraBotao(t) : ''}
+      ${(() => { const jb = typeof jiraBotao === 'function' ? jiraBotao(t) : ''; return `${jb}<button class="btn sm${jb ? '' : ' primary'}" data-act="tk-excel" data-id="${esc(t.id)}" data-uid="${esc(t.uid || '')}">Baixar Excel</button>`; })()}
       <button class="btn sm" data-act="tk-open" data-id="${esc(t.id)}" data-uid="${esc(t.uid || '')}">Editar</button>
       ${t.status !== 'devolvido' ? `<button class="btn sm" data-act="tk-return" data-id="${esc(t.id)}" data-uid="${esc(t.uid || '')}">Devolver</button>` : ''}
       ${t.status !== 'atendido' ? `<button class="btn sm" data-act="tk-done" data-id="${esc(t.id)}" data-uid="${esc(t.uid || '')}">Marcar atendido</button>` : ''}
@@ -4740,7 +4773,7 @@ ACTIONS['tk-preview'] = async (el) => {
       ${warns.length ? `<details class="box"><summary>${warns.length} aviso(s)</summary><div><ul>${warns.slice(0, 20).map((m) => `<li class="small">${esc(m)}</li>`).join('')}</ul></div></details>` : ''}
       ${d.meta && d.meta.observacoes ? `<p class="small"><b>Observações do solicitante:</b> ${esc(d.meta.observacoes)}</p>` : ''}
       <div id="pv-tabs"></div><div id="pv-table"></div>`,
-    footer: `<button class="btn" data-act="modal-close">Fechar</button>${!['devolvido', 'atendido'].includes(t.status) ? `<button class="btn" data-act="tk-return" ${a}>Devolver</button>` : ''}<button class="btn" data-act="tk-open" ${a}>Editar</button><button class="btn primary" data-act="tk-excel" ${a} ${errs.length ? 'disabled title="Resolva as pendências para baixar"' : ''}>Baixar Excel</button>` });
+    footer: `<button class="btn" data-act="modal-close">Fechar</button>${!['devolvido', 'atendido'].includes(t.status) ? `<button class="btn" data-act="tk-return" ${a}>Devolver</button>` : ''}<button class="btn" data-act="tk-open" ${a}>Editar</button>${(() => { const jb = typeof jiraBotao === 'function' ? jiraBotao(t).replace(/btn sm/, 'btn').replace('<button ', errs.length ? '<button disabled title="Resolva as pendências para enviar" ' : '<button ') : ''; return `${jb}<button class="btn${jb ? '' : ' primary'}" data-act="tk-excel" ${a} ${errs.length ? 'disabled title="Resolva as pendências para baixar"' : ''}>Baixar Excel</button>`; })()}` });
   renderPreviewTabs(); renderPreviewTable();
 };
 
@@ -4893,9 +4926,9 @@ function jiraChip(t) {
   return `<div class="small jira-chip">Jira: <a href="${esc(t.jira.url || JIRA.browse + t.jira.key)}" target="_blank" rel="noopener"><b>${esc(t.jira.key)}</b></a>${t.jira.enviadoEm ? ` em ${fmtDateTime(t.jira.enviadoEm)}` : ''}${t.arquivada ? ` · arquivada em ${fmtDateTime(t.arquivada.em)}` : ''}</div>`;
 }
 function jiraBotao(t) {
-  if (!SH.admin || !SH.supa || !(SH.me && SH.me.master)) return '';
+  if (!SH.admin || !SH.supa || !(SH.me && (SH.me.master || SH.me.enviaJira))) return '';
   const a = `data-id="${esc(t.id)}" data-uid="${esc(t.uid || '')}"`;
-  return t.jira && t.jira.key ? `<button class="btn sm" data-act="tk-jira" ${a} title="Já enviada: ${esc(t.jira.key)}">Reenviar ao Jira</button>` : `<button class="btn sm jira-btn" data-act="tk-jira" ${a}>Enviar ao Jira</button>`;
+  return t.jira && t.jira.key ? `<button class="btn sm" data-act="tk-jira" ${a} title="Já enviada: ${esc(t.jira.key)}">Reenviar ao Jira</button>` : `<button class="btn sm primary jira-btn" data-act="tk-jira" ${a}>Enviar ao Jira</button>`;
 }
 /** Categoria do portal a partir das categorias dos produtos (Refrigerantes/Still = NAB; ARTD/Destilados = RTD; Cerveja). */
 function jiraCategoria(items) {
@@ -4916,7 +4949,7 @@ function jiraResumo(t, d) {
 }
 function jiraDescricao(t, d) {
   const L = [];
-  L.push(`Solicitante: ${t.solicitante || '—'}`); if (t.observacoes) L.push(`Observações: ${t.observacoes}`);
+  L.push(`Solicitante: ${t.solicitante || '—'}`); if (typeof nomeAtendente === 'function') L.push(`Enviado ao Jira por: ${nomeAtendente()}`); if (t.observacoes) L.push(`Observações: ${t.observacoes}`);
   const redes = new Map(); for (const c of d.clients || []) { const r = normSpaces(c.rede || '') || 'sem rede'; redes.set(r, (redes.get(r) || 0) + 1); }
   L.push(`Clientes: ${(d.clients || []).length} em ${redes.size} rede(s) — ${[...redes].map(([r, n]) => `${r} (${n})`).join('; ')}`);
   L.push('', 'Produtos (preço TTC · reembolso · vigência):');
@@ -5285,6 +5318,195 @@ if (window.APP_STATUS) {
   function auto() { if (!window.APP_TESTE && SH.supa && !JS.rodando && Date.now() - Math.max(JS.ult, JS.tentou) > JS.intervalo) setTimeout(() => atualizar(false), 1500); }
   ACTIONS['jira-status-atualizar'] = () => atualizar(true);
   setInterval(() => { if (!document.hidden && (S.view === 'tickets' || (S.view === 'admin' && S.adminTab === 'chamados'))) auto(); }, 5 * 60 * 1000);
+}
+
+/* ===================== Projeto 2 (TESTE): Dashboard da Administração =====================
+   Dados: função sol_dashboard (supabase/18_dashboard.sql) → 1 linha resumida por solicitação.
+   Indicadores calculados aqui, com filtros de período, gerência e rede.
+   SLA Administração = envio do comercial → Excel baixado ou enviado ao Jira (o que vier primeiro)
+   SLA Scanntech     = chamado aberto no Jira → "Resolvido"                                        */
+if (window.APP_DASH) {
+  const DB = { rows: null, carregando: false, erro: '', em: 0, per: '8s', ger: '', rede: '', metas: { adm: 24, scan: 48 } };
+  try { const m = JSON.parse(localStorage.getItem('promo:dash-metas') || 'null'); if (m && m.adm > 0 && m.scan > 0) DB.metas = m; } catch (e) { /* sem storage */ }
+  const H = 3600 * 1000, DIA = 24 * H, SEM = 7 * DIA;
+  const PER = [['4s', 'Últimas 4 semanas', 28], ['8s', 'Últimas 8 semanas', 56], ['12s', 'Últimas 12 semanas', 84], ['mes', 'Mês atual', 0], ['tudo', 'Tudo (até 400 dias)', 400]];
+  const n1 = (v) => (v == null || !isFinite(v) ? '—' : v.toLocaleString('pt-BR', { maximumFractionDigits: 1 }));
+  const hrs = (v) => (v == null ? '—' : (v < 1 ? Math.round(v * 60) + ' min' : n1(v >= 10 ? Math.round(v) : v) + 'h'));
+  const pct = (a, b) => (b ? Math.round((a / b) * 100) : 0);
+  const media = (l) => (l.length ? l.reduce((a, b) => a + b, 0) / l.length : null);
+  /** Semana ISO (rótulo "S42") e início da semana (segunda 00:00). */
+  function semana(ms) { const d = new Date(ms); d.setHours(0, 0, 0, 0); d.setDate(d.getDate() - ((d.getDay() + 6) % 7)); const ini = d.getTime();
+    const t = new Date(ini); t.setDate(t.getDate() + 3); const y = new Date(t.getFullYear(), 0, 4); const w = 1 + Math.round(((t - y) / DIA - 3 + ((y.getDay() + 6) % 7)) / 7); return { ini, rot: 'S' + w }; }
+  function janela() {
+    const agora = Date.now(); const p = PER.find((x) => x[0] === DB.per) || PER[1];
+    if (p[0] === 'mes') { const d = new Date(); const ini = new Date(d.getFullYear(), d.getMonth(), 1).getTime(); const ant = new Date(d.getFullYear(), d.getMonth() - 1, 1).getTime(); return { ini, fim: agora, aIni: ant, aFim: ini, rot: p[1] }; }
+    const ini = agora - p[2] * DIA; return { ini, fim: agora, aIni: ini - p[2] * DIA, aFim: ini, rot: p[1] };
+  }
+  /** Tempos de cada solicitação (horas). */
+  function tempos(r) {
+    const fimAdm = Math.min(...[r.atd, r.jk ? r.jenv : null].filter((x) => x && x > 0).concat([Infinity]));
+    const adm = r.env && isFinite(fimAdm) && fimAdm >= r.env ? (fimAdm - r.env) / H : null;
+    const scan = r.jk && r.jenv && r.jfim && r.jfim >= r.jenv ? (r.jfim - r.jenv) / H : null;
+    const concluida = adm != null && (!r.jk || scan != null);
+    const noPrazo = concluida ? adm <= DB.metas.adm && (scan == null || scan <= DB.metas.scan) : null;
+    return { adm, scan, concluida, noPrazo };
+  }
+  function situacao(r) {
+    if (r.st === 'devolvido' || r.st === 'em_edicao') return 'dev';
+    if (r.jk) return r.jet === 'finalizado' ? 'cad' : (r.jet === 'iniciado' ? 'emcad' : 'scan');
+    return r.st === 'atendido' ? 'cad' : 'adm';
+  }
+  const SIT = [['adm', 'Aguardando Administração', '#9ca3af'], ['scan', 'Aguardando Scanntech', '#60a5fa'], ['emcad', 'Em cadastro', '#f59e0b'], ['cad', 'Cadastrado / atendida', '#2fbf71'], ['dev', 'Devolvida / em edição', '#e4002b']];
+
+  async function carregar(forcar) {
+    if (DB.carregando || (!forcar && DB.rows)) return; DB.carregando = true; DB.erro = '';
+    try { const r = await rpc('sol_dashboard', { p_dias: 400 }); DB.rows = (Array.isArray(r) ? r : []).map((x) => ({ ...x, tempo: tempos(x) })); DB.em = Date.now(); }
+    catch (e) { DB.erro = /sol_dashboard|function|404|PGRST202/i.test(e.message || '') ? 'A função do dashboard ainda não existe neste Supabase: rode o SQL 18_dashboard.sql no SQL Editor.' : (e.message || String(e)); }
+    finally { DB.carregando = false; if (S.view === 'admin' && S.adminTab === 'dashboard') renderAdmin(); }
+  }
+  function filtrar(rows, ini, fim) {
+    return rows.filter((r) => r.criado >= ini && r.criado < fim && (!DB.ger || (r.ger || []).includes(DB.ger)) && (!DB.rede || (r.redes || []).includes(DB.rede)));
+  }
+  function contar(rows, campo) { const m = new Map(); for (const r of rows) for (const k of r[campo] || []) m.set(k, (m.get(k) || 0) + 1); return [...m.entries()].sort((a, b) => b[1] - a[1] || String(a[0]).localeCompare(String(b[0]))); }
+
+  /* ---------- peças visuais ---------- */
+  const kpi = (rot, val, sub, cls) => `<div class="db-k ${cls || ''}"><small>${rot}</small><b>${val}</b><span>${sub || '&nbsp;'}</span></div>`;
+  const delta = (a, b, menorMelhor, un) => { if (b == null || a == null || !isFinite(a) || !isFinite(b)) return '<span class="db-mut">sem período anterior</span>'; const d = a - b; if (Math.abs(d) < 0.05) return '<span class="db-mut">= período anterior</span>';
+    const bom = menorMelhor ? d < 0 : d > 0; return `<span class="${bom ? 'db-up' : 'db-dn'}">${d > 0 ? '▲' : '▼'} ${un === '%' ? Math.abs(Math.round(d)) + '%' : un === 'h' ? hrs(Math.abs(d)) : n1(Math.abs(d))} vs. período anterior</span>`; };
+  function barras(lista, cor, vazio, n) {
+    const l = lista.slice(0, n || 9); if (!l.length) return `<p class="db-vazio">${vazio}</p>`; const mx = l[0][1] || 1;
+    return l.map(([k, v]) => `<div class="db-br" title="${esc(k)}: ${v}"><span>${esc(k)}</span><div class="db-bt"><i class="${cor}" style="width:${Math.max(2, (v / mx) * 100).toFixed(1)}%"></i></div><b>${v}</b></div>`).join('');
+  }
+  function linhaSla(sem) {
+    const W = 640, Hh = 220, x0 = 44, x1 = 600, y0 = 190, y1 = 20;
+    const vals = sem.flatMap((s) => [s.adm, s.scan]).filter((v) => v != null).concat([DB.metas.adm, DB.metas.scan]);
+    const top = Math.max(12, Math.ceil(Math.max(...vals) * 1.15 / 12) * 12); const Y = (v) => y0 - (v / top) * (y0 - y1);
+    const X = (i) => (sem.length === 1 ? (x0 + x1) / 2 : x0 + (i * (x1 - x0)) / (sem.length - 1));
+    let g = ''; for (let i = 0; i <= 4; i++) { const v = (top / 4) * i; g += `<line x1="${x0}" x2="${x1}" y1="${Y(v)}" y2="${Y(v)}" class="db-gl"/><text x="${x0 - 8}" y="${Y(v) + 4}" class="db-ax" text-anchor="end">${Math.round(v)}h</text>`; }
+    const serie = (k, cls) => { const p = sem.map((s, i) => (s[k] == null ? null : [X(i), Y(s[k])])); let d = ''; let ini = true; p.forEach((q) => { if (!q) { ini = true; return; } d += (ini ? 'M' : 'L') + q[0].toFixed(1) + ',' + q[1].toFixed(1) + ' '; ini = false; });
+      const ult = [...p].reverse().find(Boolean); const uv = [...sem].reverse().find((s) => s[k] != null);
+      return `<path d="${d}" class="db-l ${cls}"/>${p.filter(Boolean).map((q) => `<circle cx="${q[0].toFixed(1)}" cy="${q[1].toFixed(1)}" r="3.5" class="db-d ${cls}"/>`).join('')}${ult ? `<text x="${ult[0] + 7}" y="${ult[1] + 4}" class="db-lab ${cls}">${hrs(uv[k])}</text>` : ''}`; };
+    const meta = (v, cls, t) => `<line x1="${x0}" x2="${x1}" y1="${Y(v)}" y2="${Y(v)}" class="db-meta ${cls}"/><text x="${x0 + 4}" y="${Y(v) - 6}" class="db-metat ${cls}">${t} ${v}h</text>`;
+    const lbl = sem.map((s, i) => (sem.length > 12 && i % 2 ? '' : `<text x="${X(i)}" y="${y0 + 20}" class="db-ax" text-anchor="middle">${s.rot}</text>`)).join('');
+    return `<svg viewBox="0 0 ${W} ${Hh}" width="100%" role="img" aria-label="SLA médio por semana">${g}${meta(DB.metas.adm, 'a', 'meta Adm.')}${meta(DB.metas.scan, 's', 'meta Scanntech')}${serie('scan', 's')}${serie('adm', 'a')}${lbl}</svg>`;
+  }
+  function donut(itens) {
+    const tot = itens.reduce((a, x) => a + x[1], 0); if (!tot) return '<p class="db-vazio">Sem solicitações no período.</p>';
+    const r = 52, C = 2 * Math.PI * r; let off = 0;
+    const seg = itens.filter((x) => x[1]).map(([, v, c]) => { const L = (C * v) / tot; const s = `<circle r="${r}" cx="70" cy="70" fill="none" stroke="${c}" stroke-width="22" stroke-dasharray="${L.toFixed(1)} ${(C - L).toFixed(1)}" stroke-dashoffset="${(-off).toFixed(1)}" transform="rotate(-90 70 70)"/>`; off += L; return s; }).join('');
+    return `<div class="db-don"><svg width="140" height="140" viewBox="0 0 140 140" aria-hidden="true">${seg}<text x="70" y="76" text-anchor="middle" class="db-dt">${tot}</text></svg><ul>${itens.map(([n, v, c]) => `<li><i style="background:${c}"></i>${n}<b>${pct(v, tot)}%</b><em>${v}</em></li>`).join('')}</ul></div>`;
+  }
+
+  function renderAdminDashboard() {
+    if (!DB.rows && !DB.erro) { carregar(false); return '<h1>Dashboard</h1><p class="muted">Carregando os indicadores…</p>'; }
+    if (DB.erro && !DB.rows) return `<h1>Dashboard</h1><div class="alert err">${esc(DB.erro)}</div><button class="btn" data-act="dash-recarregar">Tentar de novo</button>`;
+    const J = janela(); const todos = DB.rows; const rows = filtrar(todos, J.ini, J.fim); const ant = filtrar(todos, J.aIni, J.aFim);
+    const gerOps = [...new Set(todos.flatMap((r) => r.ger || []))].sort(); const redeOps = [...new Set(todos.flatMap((r) => r.redes || []))].sort();
+    const T = (l) => l.map((r) => r.tempo);
+    const adm = (l) => media(T(l).map((t) => t.adm).filter((v) => v != null)); const scan = (l) => media(T(l).map((t) => t.scan).filter((v) => v != null));
+    const conc = rows.filter((r) => r.tempo.concluida); const ok = conc.filter((r) => r.tempo.noPrazo).length; const concA = ant.filter((r) => r.tempo.concluida);
+    const pvs = new Set(rows.flatMap((r) => r.cli || [])).size; const usu = new Set(rows.map((r) => r.u)).size;
+    const budget = rows.reduce((a, r) => a + (r.bud || []).reduce((b, x) => { const m = parseMoneyCents(x); return b + (m.ok ? m.cents : 0); }, 0), 0);
+    const comBud = rows.filter((r) => (r.bud || []).length).length;
+    const skus = media(rows.map((r) => r.nit || 0)); const skusA = media(ant.map((r) => r.nit || 0));
+    const reap = rows.filter((r) => r.reap).length; const dev = rows.filter((r) => r.dev).length; const agos = rows.filter((r) => r.agos).length;
+    // semanas do período
+    const semanas = []; const ws = semana(J.ini).ini; for (let t = ws; t <= J.fim; t += SEM) { const s = semana(t + DIA); if (!semanas.some((x) => x.ini === s.ini)) semanas.push({ ...s, l: [] }); }
+    for (const r of rows) { const s = semana(r.criado); const w = semanas.find((x) => x.ini === s.ini); if (w) w.l.push(r); }
+    const sem = semanas.slice(-16).map((w) => ({ rot: w.rot, n: w.l.length, adm: adm(w.l), scan: scan(w.l) }));
+    const mxSem = Math.max(1, ...sem.map((s) => s.n));
+    const sit = SIT.map(([k, n, c]) => [n, rows.filter((r) => situacao(r) === k).length, c]);
+    const porGer = contar(rows, 'ger');
+    const slaGer = porGer.slice(0, 10).map(([g, n]) => { const l = rows.filter((r) => (r.ger || []).includes(g)); const c = l.filter((r) => r.tempo.concluida); const p = c.length ? pct(c.filter((r) => r.tempo.noPrazo).length, c.length) : null; return [g, n, adm(l), scan(l), p]; });
+    const sel = (id, v, ops, todos_) => `<select id="${id}" data-ch="dash-filtro">${[['', todos_]].concat(ops.map((o) => [o, o])).map(([k, l]) => `<option value="${esc(k)}" ${k === v ? 'selected' : ''}>${esc(l)}</option>`).join('')}</select>`;
+    const pill = (p) => (p == null ? '—' : `<span class="db-pill ${p >= 90 ? 'ok' : p >= 80 ? 'wa' : 'ba'}">${p}%</span>`);
+    return `<div class="db">
+    <div class="db-top"><div><h1>Dashboard da Administração</h1><p class="muted small">${esc(J.rot)} · ${plural(rows.length, 'solicitação', 'solicitações')} · atualizado ${fmtDateTime(DB.em).slice(0, 16)}${DB.carregando ? ' · atualizando…' : ''}</p></div>
+      <div class="db-flt"><label>Período <select id="dash-per" data-ch="dash-filtro">${PER.map(([k, l]) => `<option value="${k}" ${k === DB.per ? 'selected' : ''}>${l}</option>`).join('')}</select></label>
+      <label>Gerência ${sel('dash-ger', DB.ger, gerOps, 'Todas')}</label><label>Rede ${sel('dash-rede', DB.rede, redeOps, 'Todas')}</label>
+      <button class="btn sm" data-act="dash-recarregar" ${DB.carregando ? 'disabled' : ''}>⟳ Atualizar</button><button class="btn sm" data-act="dash-metas">Metas de SLA</button></div></div>
+    ${DB.erro ? `<div class="alert warn small">${esc(DB.erro)}</div>` : ''}
+    <div class="db-kpis">
+      ${kpi('Solicitações recebidas', rows.length, delta(rows.length, ant.length ? ant.length : null, false))}
+      ${kpi('Clientes (PVs) com ação', pvs.toLocaleString('pt-BR'), 'em ' + plural(new Set(rows.flatMap((r) => r.redes || [])).size, 'rede'))}
+      ${kpi('SLA Administração', hrs(adm(rows)), `${delta(adm(rows), adm(ant), true, 'h')} · meta ${DB.metas.adm}h`, 'red')}
+      ${kpi('SLA Scanntech', hrs(scan(rows)), `${delta(scan(rows), scan(ant), true, 'h')} · meta ${DB.metas.scan}h`)}
+      ${kpi('Dentro do SLA (ponta a ponta)', conc.length ? pct(ok, conc.length) + '%' : '—', conc.length ? `<span class="${conc.length - ok ? 'db-dn' : 'db-up'}">${plural(conc.length - ok, 'solicitação fora do prazo', 'solicitações fora do prazo')}</span>` : 'nenhuma concluída no período')}
+    </div>
+    <div class="db-kpis db-k2">
+      ${kpi('Budget informado', fmtBRL(budget).replace(',00', ''), `${pct(comBud, rows.length)}% das solicitações com budget`)}
+      ${kpi('Solicitantes ativos', usu, 'enviaram no período')}
+      ${kpi('Média de SKUs / solicitação', n1(skus), delta(skus, skusA, false))}
+      ${kpi('Reaproveitadas', pct(reap, rows.length) + '%', plural(reap, 'criada a partir de outra', 'criadas a partir de outra'))}
+      ${kpi('Devolvidas para ajuste', pct(dev, rows.length) + '%', `<span class="${dev ? 'db-dn' : ''}">${plural(dev, 'precisou', 'precisaram')} de correção</span>`)}
+      ${kpi('Com cliente Tabela AGOS', pct(agos, rows.length) + '%', plural(agos, 'solicitação', 'solicitações'))}
+    </div>
+    <div class="db-g2">
+      <div class="db-c"><h3>SLA por semana (média em horas)</h3><p class="db-s">Administração = envio do comercial → Excel baixado / enviado ao Jira · Scanntech = chamado aberto → Resolvido</p>
+        <div class="db-leg"><span><i class="a"></i>Administração</span><span><i class="s"></i>Scanntech</span></div>${linhaSla(sem)}</div>
+      <div class="db-c"><h3>Solicitações por gerência</h3><p class="db-s">Gerência dos clientes da solicitação</p>${barras(porGer, '', 'Sem solicitações no período.')}</div>
+    </div>
+    <div class="db-g3">
+      <div class="db-c"><h3>Redes que mais receberam ações</h3><p class="db-s">Solicitações por rede</p>${barras(contar(rows, 'redes'), 'g', 'Sem redes no período.', 10)}</div>
+      <div class="db-c"><h3>Produtos mais solicitados</h3><p class="db-s">Solicitações em que o produto entrou</p><div class="db-wide">${barras(contar(rows, 'prod'), 'o', 'Sem produtos no período.', 10)}</div></div>
+      <div class="db-c"><h3>Volume por semana</h3><p class="db-s">Solicitações recebidas</p>
+        <div class="db-vb">${sem.map((s) => `<div class="db-vc" title="${s.rot}: ${s.n}"><i style="height:${Math.max(2, (s.n / mxSem) * 100)}%"><b>${s.n}</b></i><span>${s.rot}</span></div>`).join('')}</div></div>
+    </div>
+    <div class="db-g3 db-g3b">
+      <div class="db-c"><h3>SLA por gerência</h3><p class="db-s">Tempo médio e % dentro do prazo ponta a ponta</p>
+        ${slaGer.length ? `<table class="db-t"><thead><tr><th>Gerência</th><th>Solic.</th><th>SLA Adm.</th><th>SLA Scanntech</th><th>No prazo</th></tr></thead><tbody>${slaGer.map(([g, n, a, s, p]) => `<tr><td>${esc(g)}</td><td>${n}</td><td>${hrs(a)}</td><td>${hrs(s)}</td><td>${pill(p)}</td></tr>`).join('')}</tbody></table>` : '<p class="db-vazio">Sem solicitações no período.</p>'}</div>
+      <div class="db-c"><h3>Situação das solicitações</h3><p class="db-s">Onde estão as solicitações do período agora</p>${donut(sit)}</div>
+      <div class="db-c"><h3>Solicitantes que mais enviam</h3><p class="db-s">Solicitações por usuário</p>${barras(contar(rows.map((r) => ({ s: [r.sol] })), 's'), '', 'Sem solicitações no período.', 8)}</div>
+    </div></div>`;
+  }
+
+  ADMIN_TABS.splice(1, 0, ['dashboard', 'Dashboard']);
+  ADMIN_EXTRA.dashboard = renderAdminDashboard;
+  window.renderAdminDashboard = renderAdminDashboard;
+  ACTIONS['dash-recarregar'] = () => { carregar(true); renderAdmin(); };
+  CHANGES['dash-filtro'] = (el) => { if (el.id === 'dash-per') DB.per = el.value; else if (el.id === 'dash-ger') DB.ger = el.value; else DB.rede = el.value; renderAdmin(); const f = $('#' + el.id); if (f) f.focus(); };
+  ACTIONS['dash-metas'] = async () => {
+    openModal({ title: 'Metas de SLA', body: `<p class="muted small">Usadas no dashboard para o “dentro do prazo” (salvas neste navegador).</p><div class="grid2"><div class="field"><label for="dm-adm">Administração (horas)</label><input type="number" min="1" id="dm-adm" value="${DB.metas.adm}"></div><div class="field"><label for="dm-scan">Scanntech (horas)</label><input type="number" min="1" id="dm-scan" value="${DB.metas.scan}"></div></div>`,
+      footer: '<button class="btn" data-act="modal-close">Cancelar</button><button class="btn primary" data-act="dash-metas-ok">Salvar</button>' });
+  };
+  ACTIONS['dash-metas-ok'] = () => {
+    const a = Number($('#dm-adm').value), s = Number($('#dm-scan').value); if (!(a > 0 && s > 0)) { toast('Informe as duas metas em horas.', 'err'); return; }
+    DB.metas = { adm: a, scan: s }; try { localStorage.setItem('promo:dash-metas', JSON.stringify(DB.metas)); } catch (e) { /* ok */ }
+    if (DB.rows) DB.rows.forEach((r) => { r.tempo = tempos(r); }); closeModal(); renderAdmin();
+  };
+}
+
+/* ===================== Projeto 2 (TESTE): permissão "Envia ao Jira" por usuário =====================
+   Master sempre envia. Outros Administradores (sem ser Master) só enviam se o Master liberar aqui.
+   SQL: supabase/19_envio_jira_permissao.sql (adm_usuario_jira). */
+if (window.APP_JIRA_PERM) {
+  /** Nome dos Secrets do token próprio (igual à função jira-enviar). */
+  const slugJira = (u) => String(u || '').toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^A-Z0-9]+/g, '_').replace(/^_+|_+$/g, '');
+  window.jiraSecrets = (u) => [`JIRA_EMAIL_${slugJira(u)}`, `JIRA_TOKEN_${slugJira(u)}`];
+  const _users = renderAdminUsers;
+  renderAdminUsers = function () {
+    const html = _users(); const box = document.createElement('div'); box.innerHTML = html;
+    const souMaster = !!(SH.me && SH.me.master); const lista = USERS.list || [];
+    box.querySelectorAll('tbody tr').forEach((tr) => {
+      const b = tr.querySelector('[data-act="user-edit"]'); if (!b) return; const u = lista.find((x) => x.usuario === b.dataset.u); if (!u) return;
+      const td = tr.children[2]; const ehAdm = /^Administrador/.test(u.perfil || '');
+      if (ehAdm) td.insertAdjacentHTML('beforeend', u.enviaJira ? `<br><span class="chip ok" title="${u.master ? 'O Master sempre envia ao Jira' : 'Envia com o próprio token: Secrets ' + jiraSecrets(u.usuario).join(' e ')}">Envia ao Jira</span>${u.master ? '' : `<br><span class="small muted">Secrets: ${jiraSecrets(u.usuario).join(' / ')}</span>`}` : '<br><span class="chip neutral">Não envia ao Jira</span>');
+      if (souMaster && ehAdm && !u.master && u.ativo) {
+        const row = tr.querySelector('.btn-row');
+        if (row) row.insertAdjacentHTML('beforeend', `<button class="btn sm${u.enviaJira ? '' : ' primary'}" data-act="user-jira" data-u="${esc(u.usuario)}" data-v="${u.enviaJira ? '0' : '1'}">${u.enviaJira ? 'Tirar envio ao Jira' : 'Liberar envio ao Jira'}</button>`);
+      }
+    });
+    return box.innerHTML;
+  };
+  ACTIONS['user-jira'] = async (el) => {
+    const u = (USERS.list || []).find((x) => x.usuario === el.dataset.u); if (!u) return; const libera = el.dataset.v === '1';
+    if (!(await confirmBox(libera ? 'Liberar envio ao Jira' : 'Tirar envio ao Jira', libera
+      ? `<p><b>${esc(u.nome)}</b> passa a ver o botão <b>Enviar ao Jira</b> e abre os chamados <b>com a conta do Jira dele</b>. Continua Administrador comum, sem os poderes de Master.</p><p>Para funcionar, cadastre em <b>Supabase › Edge Functions › Secrets</b>:</p><ul><li><code>${jiraSecrets(u.usuario)[0]}</code> = e-mail do Jira dele</li><li><code>${jiraSecrets(u.usuario)[1]}</code> = token do Jira dele</li></ul><p class="small muted">O token é colado só nos Secrets do Supabase — nunca no app nem no chat.</p>`
+      : `<p><b>${esc(u.nome)}</b> deixa de enviar solicitações ao Jira. Os chamados que já abriu continuam valendo.</p>`, libera ? 'Liberar' : 'Tirar'))) return;
+    try { await rpc('adm_usuario_jira', { p_usuario: u.usuario, p_libera: libera }); u.enviaJira = libera; toast(libera ? `${u.nome} agora envia ao Jira.` : `${u.nome} não envia mais ao Jira.`, 'ok'); }
+    catch (e) { toast(/adm_usuario_jira|PGRST202|404/.test(e.message || '') ? 'Rode o SQL 19_envio_jira_permissao.sql no Supabase primeiro.' : e.message, 'err'); }
+    renderAdmin();
+  };
 }
 
 init().catch((e) => { console.error(e); if (window.__diagShow) window.__diagShow(String(e && e.message || e)); });
