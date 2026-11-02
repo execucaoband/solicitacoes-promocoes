@@ -5310,7 +5310,7 @@ if (window.APP_STATUS) {
       const r = window.APP_TESTE ? await simularPasso() : await consultar();
       JS.ult = Date.now(); try { localStorage.setItem('promo:jira-status-ult', String(JS.ult)); } catch (e) { /* ok */ }
       await pollTickets();
-      if (manual) toast(r.consultados ? `Status do Jira atualizado: ${plural(r.consultados, 'chamado consultado', 'chamados consultados')}${r.falhas && r.falhas.length ? ` · ${r.falhas.length} sem resposta` : ''}.` : 'Nenhum chamado em andamento para consultar.', r.falhas && r.falhas.length ? 'warn' : 'ok');
+      if (manual) toast(r.consultados ? `Status do Jira atualizado: ${plural(r.consultados, 'chamado consultado', 'chamados consultados')}${r.falhas && r.falhas.length ? ` · ${r.falhas.length} sem resposta do Jira (${[...new Set(r.falhas.map((f) => f.erro))].slice(0, 2).map((x) => x === 'HTTP 401' ? 'HTTP 401: login recusado, confira JIRA_EMAIL/JIRA_TOKEN' : x === 'HTTP 403' ? 'HTTP 403: sem permissão no portal' : x).join('; ')}; ex.: ${r.falhas.slice(0, 3).map((f) => f.key).join(', ')})` : ''}.` : 'Nenhum chamado em andamento para consultar.', r.falhas && r.falhas.length ? 'warn' : 'ok');
     } catch (e) { JS.erro = 'Jira: ' + e.message; if (manual) toast('Não foi possível consultar o Jira: ' + e.message, 'err'); }
     finally { JS.rodando = false; redesenhar(); }
   }
