@@ -1941,7 +1941,12 @@ function compute() {
         line.invStatus = 'manual'; line.reembolsoCents = reembManual; line.budgetCents = null; line.limiteAprov = null;
         const esp = !it.reembAdmin && typeof reembEspecialDe === 'function' ? reembEspecialDe(cv.rec, p) : null;
         const espVg = esp ? espVigencia(esp, it.inicio, it.fim) : null;
-        if (esp && espVg === 'fora' && reembManual === esp.cents && typeof reembCents === 'function' && reembCents(p) != null) line.reembolsoCents = reembCents(p);   // valor da AGOS ficou de datas antigas: volta ao padrão
+        if (!it.reembAdmin && (!esp || espVg === 'fora')) {   // fora da AGOS: padrão do segmento (ex.: AS 1-4) ou tabela padrão
+          const fora = typeof reembForaDe === 'function' ? reembForaDe(cv.rec, p) : null; const pad = typeof reembCents === 'function' ? reembCents(p) : null;
+          const auto = reembManual == null || reembManual === pad || (esp && reembManual === esp.cents) || (fora && reembManual === fora.cents);
+          if (auto && fora) { line.reembolsoCents = fora.cents; line.padraoSeg = fora; }
+          else if (auto && esp && pad != null) line.reembolsoCents = pad;   // valor da AGOS ficou de datas antigas: volta ao padrão
+        }
         if (esp && espVg !== 'fora') {   // fora dos períodos da tabela especial: vale a tabela padrão
           line.especial = esp; line.reembolsoCents = esp.cents;
           line.warns.push(`⭐ ${esp.motivo}${esp.porRede ? ' (aplicada à rede toda)' : ''}: reembolso especial ${fmtBRL(esp.cents)}${esp.vigTxt ? ` (vigência ${esp.vigTxt})` : ''}`);
@@ -4316,6 +4321,7 @@ function tabelaEspecialCliente(rec) { const E = S.reembEspecial; const nome = E 
 function tabelaEspecialRede(redeKey) {
   if (!redeKey || !S.reembEspecial) return null; const cont = new Map();
   for (const c of (S.draft && S.draft.clients) || []) { if (keyOf(normSpaces(c.rede || '')) !== redeKey) continue; const t = tabelaEspecialCliente(c.snap || c); if (t) cont.set(t, (cont.get(t) || 0) + 1); }
+  const as14 = [...cont.keys()].find((t) => /AS\s*1\s*-\s*4/i.test(t)); if (as14) return as14;   // 04/11: rede com loja AS 1-4 → AS 1-4 para a rede toda
   let best = null, n = 0; for (const [t, k] of cont) if (k > n) { best = t; n = k; } return best;
 }
 /** Períodos de vigência da tabela especial: [{ini, fim}] (ISO). Sem períodos: até vigMax (regra antiga). */
@@ -4344,6 +4350,22 @@ function reembEspecialDe(rec, p) {
   const q = qtdCaixaDe(p); if (!q) return null;
   return { tabela: nome, motivo: tab.motivo || nome, vigMax: fimFinal, periodos: espPeriodos(tab), vigTxt: espVigTxt(tab), cents: toCents(v) * q, porRede: nome !== propria };
 }
+/** Reembolso padrão do segmento (ex.: "Reembolso padrão AS 1-4"): vale fora da AGOS (sem datas, fora dos períodos
+    ou depois que a AGOS acaba) para os clientes da tabela especial que tem valores "fora". */
+function reembForaDe(rec, p) {
+  const E = S.reembEspecial; if (!E || !rec || !p) return null;
+  const propria = tabelaEspecialCliente(rec); const daRede = tabelaEspecialRede(rec.redeKey || (rec.rede ? keyOf(normSpaces(rec.rede)) : ''));
+  const nome = daRede || propria; const tab = nome && E.tabelas[nome]; if (!tab || !tab.valoresFora) return null;
+  const g = reembDoProduto(p); if (!g) return null; const v = Number(tab.valoresFora[String(g.n)]); if (!(v > 0)) return null;
+  const q = qtdCaixaDe(p); if (!q) return null;
+  return { tabela: nome, motivo: tab.motivoFora || ('Reembolso padrão ' + nome), vigMax: null, periodos: [], vigTxt: '', cents: toCents(v) * q, porRede: nome !== propria, fora: true };
+}
+/** Valores automáticos possíveis do item (tabela padrão, especial e padrão do segmento), em texto. */
+function reembAutoValores(it, p) {
+  const out = [reembTexto(p)]; const e = reembEspecialItem(it, p, true); if (e) out.push(...e.valores.map(centsText));
+  for (const k of it.recipients || []) { const f = reembForaDe(clienteRecDe(k), p); if (f) out.push(centsText(f.cents)); }
+  return [...new Set(out.filter(Boolean))];
+}
 /** Registro do cliente destinatário (snap da seleção). */
 function clienteRecDe(k) { const c = ((S.draft && S.draft.clients) || []).find((x) => x.key === k); if (!c) return null; const r = c.snap || c; const rede = normSpaces(c.rede || r.rede || ''); return { ...r, rede, redeKey: keyOf(rede) }; }
 /** Reembolso especial considerando os clientes do item: {motivo, vigMax, cents, todos, n, total, valores} ou null.
@@ -4351,10 +4373,16 @@ function clienteRecDe(k) { const c = ((S.draft && S.draft.clients) || []).find((
 function reembEspecialItem(it, p, ignorarDatas) {
   if (typeof reembEspecialDe !== 'function' || !it) return null; p = p || IDX.produtos.get(it.productKey) || it.snap;
   const rs = it.recipients || []; if (!rs.length) return null;
-  const es = rs.map((k) => reembEspecialDe(clienteRecDe(k), p)); const ok = es.filter(Boolean); if (!ok.length) return null;
-  if (!ignorarDatas && espVigencia(ok[0], it.inicio, it.fim) === 'fora') return null;
-  const valores = [...new Set(ok.map((e) => e.cents))];
-  return { ...ok[0], todos: ok.length === rs.length && valores.length === 1, n: ok.length, total: rs.length, valores };
+  const recs = rs.map((k) => clienteRecDe(k));
+  const ok = recs.map((r) => reembEspecialDe(r, p)).filter(Boolean);
+  if (ok.length && (ignorarDatas || espVigencia(ok[0], it.inicio, it.fim) !== 'fora')) {
+    const valores = [...new Set(ok.map((e) => e.cents))];
+    return { ...ok[0], todos: ok.length === rs.length && valores.length === 1, n: ok.length, total: rs.length, valores };
+  }
+  if (ignorarDatas) return null;
+  const fk = recs.map((r) => reembForaDe(r, p)).filter(Boolean); if (!fk.length) return null;   // fora da AGOS: padrão do segmento (ex.: AS 1-4)
+  const valores = [...new Set(fk.map((e) => e.cents))];
+  return { ...fk[0], todos: fk.length === rs.length && valores.length === 1, n: fk.length, total: rs.length, valores };
 }
 /** Valor que o campo Reembolso deve mostrar: especial (quando vale para todos os clientes do item) ou o da tabela. */
 function reembAlvoCents(it, p) { p = p || IDX.produtos.get(it.productKey) || it.snap; const e = reembEspecialItem(it, p); return e && e.todos ? e.cents : reembCents(p); }
@@ -4370,7 +4398,7 @@ function aplicarReembTabela(items) {
   for (const it of items) {
     const p = IDX.produtos.get(it.productKey) || it.snap; const v = reembAlvoTexto(it, p); if (!v || it.reembolso === v) continue;
     if (it.reembAdmin) continue;
-    const auto = [reembTexto(p), ...((reembEspecialItem(it, p, true) || { valores: [] }).valores.map(centsText))];   // valores automáticos (tabela / especial)
+    const auto = reembAutoValores(it, p);   // valores automáticos (tabela / especial / padrão do segmento)
     if (livre && normSpaces(it.reembolso || '') && !auto.includes(it.reembolso)) continue;
     it.reembolso = v; n++;
   }
@@ -4829,17 +4857,19 @@ function qcField(id, label, input, hint = '') { return `<div class="field qc-f" 
 /** Texto de ajuda do Reembolso no popup (muda conforme as datas, por causa da Tabela AGOS por períodos). */
 function qcReembHint(it, p) {
   if (!investManual()) return '';
-  const lock = reembBloqueado(p); const g = reembDoProduto(p); const esp = reembEspecialItem(it, p); const espSemData = esp ? null : reembEspecialItem(it, p, true);
-  const espTxt = !esp ? (espSemData && espSemData.periodos && espSemData.periodos.length ? `<span class="esp-hint">⭐ ${esc(espSemData.motivo)} só para promoções inteiras de ${esc(espSemData.vigTxt)}${isISODate(it.inicio) && isISODate(it.fim) ? ' — com estas datas vale a tabela padrão' : ' — escolha as datas'}.</span><br>` : '')
+  const lock = reembBloqueado(p); const g = reembDoProduto(p); const esp = reembEspecialItem(it, p); const espSemData = esp && !esp.fora ? null : reembEspecialItem(it, p, true);
+  const agosTxt = espSemData && espSemData.periodos && espSemData.periodos.length ? `<span class="esp-hint">⭐ ${esc(espSemData.motivo)} só para promoções inteiras de ${esc(espSemData.vigTxt)}${isISODate(it.inicio) && isISODate(it.fim) ? ` — com estas datas vale ${esp && esp.fora ? 'o ' + esc(esp.motivo) : 'a tabela padrão'}` : ' — escolha as datas'}.</span><br>` : '';
+  const espTxt = !esp ? agosTxt
+    : esp.fora ? agosTxt + (esp.todos ? `<span class="esp-hint">✓ ${esc(esp.motivo)}: ${fmtBRL(esp.cents)}</span><br>` : `<span class="esp-hint">✓ ${esc(esp.motivo)}: ${plural(esp.n, 'cliente')} de ${esp.total} com ${esp.valores.map(fmtBRL).join(' / ')}. O valor abaixo vale para os demais.</span><br>`)
     : esp.todos ? `<span class="esp-hint">⭐ ${esc(esp.motivo)}: ${fmtBRL(esp.cents)}${esp.vigTxt ? ` · vigência ${esp.vigTxt}` : ''}</span><br>`
     : `<span class="esp-hint">⭐ ${esc(esp.motivo)}: ${plural(esp.n, 'cliente')} de ${esp.total} com ${esp.valores.map(fmtBRL).join(' / ')}${esp.vigTxt ? ` (${esp.vigTxt})` : ''}. O valor abaixo vale para os demais.</span><br>`;
-  return espTxt + (esp && esp.todos ? `<span class="muted">Tabela padrão: ${fmtBRL(reembCents(p) || 0)}</span>` : lock ? `🔒 Tabela: ${esc(reembRotulo(g))}${p.tipo === 'Caixa' ? ` = ${fmtBRL(toCents(g.reembolso))} × ${qtdCaixaDe(p)} un.` : ''}` : g ? `Tabela: ${fmtBRL(reembCents(p) || 0)} (${esc(reembRotulo(g))})` : 'Sem valor na tabela de investimentos: informe.');
+  return espTxt + (esp && esp.todos ? `<span class="muted">Tabela padrão${esp.fora ? ' dos demais segmentos' : ''}: ${fmtBRL(reembCents(p) || 0)}</span>` : lock ? `🔒 Tabela: ${esc(reembRotulo(g))}${p.tipo === 'Caixa' ? ` = ${fmtBRL(toCents(g.reembolso))} × ${qtdCaixaDe(p)} un.` : ''}` : g ? `Tabela: ${fmtBRL(reembCents(p) || 0)} (${esc(reembRotulo(g))})` : 'Sem valor na tabela de investimentos: informe.');
 }
 /** Ao mudar as datas no popup: troca o reembolso entre AGOS e tabela padrão na hora. */
 function qcReembSync(it, p) {
   const r = $('#qc-reembolso'); if (!r || !investManual() || it.reembAdmin) return;
   const tmp = { ...it, inicio: ($('#qc-inicio') || {}).value || '', fim: ($('#qc-fim') || {}).value || '' };
-  const v = reembAlvoTexto(tmp, p); const auto = [reembTexto(p), ...((reembEspecialItem(tmp, p, true) || { valores: [] }).valores.map(centsText))];
+  const v = reembAlvoTexto(tmp, p); const auto = reembAutoValores(tmp, p);
   if (v && (r.readOnly || !normSpaces(r.value) || auto.includes(normSpaces(r.value)))) r.value = v;
   const m = $('#qcm-reembolso'); if (m) { const h = `<span class="hint">${qcReembHint(tmp, p)}</span>`; m.innerHTML = h; m.dataset.orig = h; }
 }
