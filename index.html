@@ -715,7 +715,7 @@ tr.pg-row.pg-row-mini td{padding:0 14px 10px!important}
 </style>
 </head>
 <body>
-<script>window.APP_PROJETO = 'Projeto 2 · Supabase'; window.APP_TESTE = false; window.APP_MODE = 'supabase'; window.APP_STATUS = true; window.APP_JIRA_PERM = true; window.APP_NOVIDADES = true; window.APP_VERSAO = '2.0'; window.APP_DEV = 'Welder Silva'; window.SUPA_URL = 'https://cnizuofynsncupgmjyej.supabase.co'; window.SUPA_KEY = 'sb_publishable_AGruF33Wg2CwB3s5Na9TiA_FV98BP3A';</script>
+<script>window.APP_PROJETO = 'Projeto 2 · Supabase'; window.APP_TESTE = false; window.APP_MODE = 'supabase'; window.APP_STATUS = true; window.APP_JIRA_PERM = true; window.APP_DASH = true; window.APP_NOVIDADES = true; window.APP_VERSAO = '2.0'; window.APP_DEV = 'Welder Silva'; window.SUPA_URL = 'https://cnizuofynsncupgmjyej.supabase.co'; window.SUPA_KEY = 'sb_publishable_AGruF33Wg2CwB3s5Na9TiA_FV98BP3A';</script>
 <a class="skip" href="#main">Pular para o conteúdo</a>
 <header class="topbar">
   <div class="brand">Cadastro de Promoções<small>Clientes → Produtos → Condições → Revisão</small></div>
@@ -1920,6 +1920,11 @@ function compute() {
     if (!it.fim) fieldErr.fim = 'Informe o fim da vigência.'; else if (!isISODate(it.fim)) fieldErr.fim = 'Data inválida.';
     if (!fieldErr.inicio && !fieldErr.fim && it.fim < it.inicio) fieldErr.fim = 'O fim não pode ser anterior ao início.';
     const fieldWarn = {};
+    const vigDias = !fieldErr.inicio && !fieldErr.fim ? daysInclusive(it.inicio, it.fim) : null;   // vigência máxima: 5 dias (a Administração pode passar)
+    if (vigDias && typeof VIG_MAX_DIAS !== 'undefined' && vigDias > VIG_MAX_DIAS) {
+      if (typeof isAdminUI === 'function' && isAdminUI()) fieldWarn.fim = `Vigência de ${vigDias} dias (acima do limite de ${VIG_MAX_DIAS} — liberado para a Administração).`;
+      else fieldErr.fim = `A vigência pode ter no máximo ${VIG_MAX_DIAS} dias (esta tem ${vigDias}). Ajuste o fim para até ${fmtDate(vigFimMax(it.inicio))} ou peça à Administração.`;
+    }
     if (isISODate(it.inicio) && it.inicio < today) fieldWarn.inicio = 'Início anterior a hoje.';
     if (isISODate(it.inicio) && it.inicio > max6) fieldWarn.inicio = 'Início posterior a seis meses a partir de hoje.';
     let budgetManual = null; if (normSpaces(it.budget)) { const b = parseMoneyCents(it.budget); if (!b.ok) fieldErr.budget = b.err; else if (b.cents <= 0) fieldErr.budget = 'O budget deve ser maior que zero.'; else budgetManual = b.cents; }
@@ -4904,7 +4909,7 @@ function openQuickCond(itemId) {
     <button type="submit" hidden></button></form>`;
   const footer = `<button class="btn danger ghost-danger" id="qc-remove">Remover produto</button><span class="grow"></span><button class="btn" id="qc-later">${QC.fila.length ? 'Pular este sabor' : 'Preencher depois'}</button><button class="btn primary" id="qc-ok">${QC.fila.length ? 'Salvar e ir para o próximo sabor' : 'Salvar e escolher outro produto'}</button>`;
   openModal({ title: 'Preço e vigência', body, footer, onClose: () => { qcWrite(it); QC.fila = []; QC.total = 0; qcBack(it, false); } });
-  const dias = () => { if (!$('#qc-dias')) return; const n = daysInclusive($('#qc-inicio').value, $('#qc-fim').value); $('#qc-dias').textContent = n && n > 0 ? plural(n, 'dia') : ''; $('#qc-fim').min = $('#qc-inicio').value || ''; };
+  const dias = () => { if (!$('#qc-dias')) return; const n = daysInclusive($('#qc-inicio').value, $('#qc-fim').value); $('#qc-dias').textContent = n && n > 0 ? plural(n, 'dia') + (typeof VIG_MAX_DIAS !== 'undefined' && n > VIG_MAX_DIAS ? (isAdminUI() ? ` · acima de ${VIG_MAX_DIAS} dias (liberado para a Administração)` : ` · máximo ${VIG_MAX_DIAS} dias`) : '') : ''; $('#qc-dias').style.color = typeof VIG_MAX_DIAS !== 'undefined' && n > VIG_MAX_DIAS && !isAdminUI() ? 'var(--err)' : ''; $('#qc-fim').min = $('#qc-inicio').value || ''; };
   const limpa = (f) => { const m = $('#qcm-' + f), w = $('#qcw-' + f); if (m && m.dataset.orig != null) m.innerHTML = m.dataset.orig; if (w) w.classList.remove('has-err'); };
   for (const f of ['ttc', 'reembolso', 'inicio', 'fim']) { const el = $('#qc-' + f); if (el) el.addEventListener('input', () => { limpa(f); if (f === 'inicio' || f === 'fim') { limpa('inicio'); limpa('fim'); qcReembSync(it, p); } dias(); }); }
   dias();
@@ -5665,6 +5670,58 @@ if (window.APP_LOADING) {
     }
   }).observe(document.documentElement, { subtree: true, childList: true, attributes: true, attributeFilter: ['disabled'], characterData: true });
 }
+
+/* ===================== 07/11: vigência máx. 5 dias + filtros em Solicitações recebidas =====================
+   (bloco acrescentado ao index oficial; equivalente ao que entraria em supa/src/09j_vig_filtros.js) */
+var VIG_MAX_DIAS = 5;
+/** Último dia permitido para uma promoção que começa em ini (ISO). */
+function vigFimMax(ini) { if (!isISODate(ini)) return ini; const d = new Date(ini + 'T12:00:00'); d.setDate(d.getDate() + VIG_MAX_DIAS - 1); return d.toISOString().slice(0, 10); }
+/* Solicitações recebidas: filtro de gerência e pesquisa por rede / cliente / PV / solicitante / nº do Jira */
+{
+  const sa = (s) => String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+  const _resumo = ticketResumo;
+  ticketResumo = function (s) {   // guarda as gerências dos clientes no resumo (solicitações novas)
+    const r = _resumo(s); const g = [];
+    for (const c of s.cvs || []) { const x = normSpaces((c.rec && c.rec.gerencia) || ''); if (x && !g.includes(x)) g.push(x); }
+    r.gerencias = g.slice(0, 30); return r;
+  };
+  /** Gerências da solicitação: do resumo ou, nas antigas, pelos PVs da pesquisa na base de clientes. */
+  function gerenciasDe(t) {
+    const r = t.resumo || {}; if (Array.isArray(r.gerencias) && r.gerencias.length) return r.gerencias;
+    const g = [];
+    for (const v of r.clientesBusca || []) { const cod = String(v).split(' ')[0]; const rec = IDX.byCodigo && (IDX.byCodigo.get(keyOf(cod)) || [])[0]; const x = rec && normSpaces(rec.gerencia || ''); if (x && !g.includes(x)) g.push(x); }
+    return g;
+  }
+  window.gerenciasDe = gerenciasDe;
+  const textoDe = (t) => sa([t.id, t.solicitante, t.jira && t.jira.key, ...((t.resumo && t.resumo.nomesRedes) || []), ...((t.resumo && t.resumo.clientesBusca) || []), ...gerenciasDe(t)].filter(Boolean).join(' | '));
+  const _adm = renderAdminTickets;
+  renderAdminTickets = function () {
+    const html = _adm(); const all = ticketsAll(); if (!all.length) return html;
+    const box = document.createElement('div'); box.innerHTML = html;
+    const ger = UI.admGer || ''; const q = sa(normSpaces(UI.admBusca || '')); const partes = q.split(' ').filter(Boolean);
+    const gers = [...new Set(all.flatMap(gerenciasDe))].sort();
+    let vis = 0, tot = 0;
+    box.querySelectorAll('table.t tbody > tr').forEach((tr) => {
+      const b = tr.querySelector('[data-id]'); if (!b) return; const t = findTicket(b.dataset.id, b.dataset.uid || undefined); if (!t) return; tot++;
+      const ok = (!ger || gerenciasDe(t).includes(ger)) && (!partes.length || partes.every((p) => textoDe(t).includes(p)));
+      if (!ok) tr.remove(); else { vis++; const gs = gerenciasDe(t); const cel = tr.children[4]; if (gs.length && cel && !cel.querySelector('.tk-ger')) cel.insertAdjacentHTML('afterbegin', `<div class="tk-rede tk-ger"><b>Gerência:</b> ${esc(gs.join(' / '))}</div>`); }
+    });
+    const bar = `<div class="adm-filtros"><label>Gerência <select id="adm-ger" data-ch="adm-ger"><option value="">Todas</option>${gers.map((g) => `<option ${g === ger ? 'selected' : ''}>${esc(g)}</option>`).join('')}</select></label>
+      <label class="grow">Pesquisar <input type="search" id="adm-q" data-in="adm-q" value="${esc(UI.admBusca || '')}" placeholder="Nome da rede, cliente, PV, solicitante ou nº do Jira" autocomplete="off"></label>
+      <span class="muted small">${ger || q ? `${vis} de ${tot} nesta aba` : `${tot} nesta aba`}</span>${ger || q ? '<button class="btn sm ghost" data-act="adm-limpar">Limpar filtros</button>' : ''}</div>`;
+    const tabs = box.querySelector('.tabs'); if (tabs) tabs.insertAdjacentHTML('afterend', bar);
+    if ((ger || q) && tot && !vis) { const tw = box.querySelector('.table-wrap'); if (tw) tw.outerHTML = `<p class="empty">Nenhuma solicitação nesta aba para ${ger ? `a gerência <b>${esc(ger)}</b>` : ''}${ger && q ? ' e ' : ''}${q ? `“${esc(UI.admBusca)}”` : ''}. Veja também a aba Todos.</p>`; }
+    return box.innerHTML;
+  };
+  const foco = (id) => { const i = document.getElementById(id); if (i) { i.focus(); if (i.setSelectionRange) { const n = i.value.length; try { i.setSelectionRange(n, n); } catch (e) { /* ok */ } } } };
+  INPUTS['adm-q'] = debounce((el) => { UI.admBusca = el.value; renderAdmin(); foco('adm-q'); }, 250);
+  CHANGES['adm-ger'] = (el) => { UI.admGer = el.value; renderAdmin(); foco('adm-ger'); };
+  ACTIONS['adm-limpar'] = () => { UI.admBusca = ''; UI.admGer = ''; renderAdmin(); foco('adm-q'); };
+  const st_ = document.createElement('style');
+  st_.textContent = '.adm-filtros{display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;margin:10px 0}.adm-filtros label{display:flex;flex-direction:column;gap:3px;font-size:12px;color:var(--muted)}.adm-filtros label.grow{flex:1;min-width:240px}.adm-filtros select,.adm-filtros input{padding:7px 9px;border:1px solid var(--border);border-radius:8px;font:inherit;font-size:13px;background:var(--surface)}';
+  document.head.appendChild(st_);
+}
+
 
 init().catch((e) => { console.error(e); if (window.__diagShow) window.__diagShow(String(e && e.message || e)); });
 </script>
