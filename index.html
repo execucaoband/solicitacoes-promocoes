@@ -5723,6 +5723,32 @@ function vigFimMax(ini) { if (!isISODate(ini)) return ini; const d = new Date(in
 }
 
 
+/* Trava na hora de digitar a vigência (usuário comum): o fim não passa de início + 4 dias (5 dias no total).
+   Vale no popup "Preço e vigência", nos campos do produto e do grupo (etapa 3) e no "aplicar período a todos". */
+{
+  const par = (el) => {
+    const id = el.id || ''; let m;
+    if (id === 'qc-inicio' || id === 'qc-fim') return [document.getElementById('qc-inicio'), document.getElementById('qc-fim')];
+    if (id === 'bulk-ini' || id === 'bulk-fim') return [document.getElementById('bulk-ini'), document.getElementById('bulk-fim')];
+    if ((m = id.match(/^f-(inicio|fim)-(.+)$/))) return [document.getElementById('f-inicio-' + m[2]), document.getElementById('f-fim-' + m[2])];
+    if (el.dataset && el.dataset.in === 'grp-field' && (m = id.match(/^(.*)-(inicio|fim)$/))) return [document.getElementById(m[1] + '-inicio'), document.getElementById(m[1] + '-fim')];
+    return null;
+  };
+  const livre = () => typeof isAdminUI === 'function' && isAdminUI();
+  const travar = (e) => {
+    const el = e.target; if (!el || el.type !== 'date' || livre()) return;
+    const pr = par(el); if (!pr || !pr[0] || !pr[1]) return; const [ini, fim] = pr;
+    if (isISODate(ini.value)) fim.max = vigFimMax(ini.value); else fim.removeAttribute('max');
+    if (!isISODate(ini.value) || !isISODate(fim.value)) return;
+    const lim = vigFimMax(ini.value); if (fim.value <= lim) return;
+    fim.value = lim;
+    toast(`Vigência máxima de ${VIG_MAX_DIAS} dias: o fim foi ajustado para ${fmtDate(lim)}.`, 'warn');
+    if (el !== fim) setTimeout(() => fim.dispatchEvent(new Event('input', { bubbles: true })), 0);   // grava o fim ajustado
+  };
+  window.addEventListener('input', travar, true); window.addEventListener('change', travar, true);
+  window.addEventListener('focusin', (e) => { const el = e.target; if (!el || el.type !== 'date' || livre()) return; const pr = par(el); if (pr && pr[0] && pr[1] && isISODate(pr[0].value)) pr[1].max = vigFimMax(pr[0].value); }, true);
+}
+
 init().catch((e) => { console.error(e); if (window.__diagShow) window.__diagShow(String(e && e.message || e)); });
 </script>
 <script>window.__fimIndex = true;</script>
