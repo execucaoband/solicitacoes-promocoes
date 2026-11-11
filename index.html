@@ -715,7 +715,7 @@ tr.pg-row.pg-row-mini td{padding:0 14px 10px!important}
 </style>
 </head>
 <body>
-<script>window.APP_PROJETO = 'Projeto 2 · Supabase'; window.APP_TESTE = false; window.APP_MODE = 'supabase'; window.APP_STATUS = true; window.APP_JIRA_PERM = true; window.APP_DASH = true; window.APP_NOVIDADES = true; window.APP_VERSAO = '2.0'; window.APP_DEV = 'Welder Silva'; window.SUPA_URL = 'https://cnizuofynsncupgmjyej.supabase.co'; window.SUPA_KEY = 'sb_publishable_AGruF33Wg2CwB3s5Na9TiA_FV98BP3A';</script>
+<script>window.APP_PROJETO = 'Projeto 2 · Supabase'; window.APP_TESTE = false; window.APP_MODE = 'supabase'; window.APP_STATUS = true; window.APP_JIRA_PERM = true; window.APP_DASH = true; window.APP_NOVIDADES = true; window.APP_VERSAO = '2.2'; window.APP_DEV = 'Welder Silva'; window.SUPA_URL = 'https://cnizuofynsncupgmjyej.supabase.co'; window.SUPA_KEY = 'sb_publishable_AGruF33Wg2CwB3s5Na9TiA_FV98BP3A';</script>
 <a class="skip" href="#main">Pular para o conteúdo</a>
 <header class="topbar">
   <div class="brand">Cadastro de Promoções<small>Clientes → Produtos → Condições → Revisão</small></div>
@@ -1915,6 +1915,7 @@ function compute() {
     const ttc = parseMoneyCents(it.ttc); const fieldErr = {};
     if (ttc.empty) fieldErr.ttc = 'Informe o TTC promocional.';
     else if (!ttc.ok) fieldErr.ttc = ttc.err; else if (ttc.cents <= 0) fieldErr.ttc = 'O TTC deve ser maior que zero.';
+    if (!fieldErr.ttc && typeof precoCaixaSuspeito === 'function') { const cx = precoCaixaSuspeito(p, ttc.cents); if (cx) fieldErr.ttc = cx.msgCurta; }
     const ttcCents = !fieldErr.ttc ? ttc.cents : null;
     if (!it.inicio) fieldErr.inicio = 'Informe o início da vigência.'; else if (!isISODate(it.inicio)) fieldErr.inicio = 'Data inválida.';
     if (!it.fim) fieldErr.fim = 'Informe o fim da vigência.'; else if (!isISODate(it.fim)) fieldErr.fim = 'Data inválida.';
@@ -1922,8 +1923,8 @@ function compute() {
     const fieldWarn = {};
     const vigDias = !fieldErr.inicio && !fieldErr.fim ? daysInclusive(it.inicio, it.fim) : null;   // vigência máxima: 5 dias (a Administração pode passar)
     if (vigDias && typeof VIG_MAX_DIAS !== 'undefined' && vigDias > VIG_MAX_DIAS) {
-      if (typeof isAdminUI === 'function' && isAdminUI()) fieldWarn.fim = `Vigência de ${vigDias} dias (acima do limite de ${VIG_MAX_DIAS} — liberado para a Administração).`;
-      else fieldErr.fim = `A vigência pode ter no máximo ${VIG_MAX_DIAS} dias (esta tem ${vigDias}). Ajuste o fim para até ${fmtDate(vigFimMax(it.inicio))} ou peça à Administração.`;
+      if (typeof vigLivre === 'function' && vigLivre(D)) fieldWarn.fim = `Vigência de ${vigDias} dias (acima do limite de ${VIG_MAX_DIAS} — liberada pela Administração).`;
+      else fieldErr.fim = `A vigência pode ter no máximo ${VIG_MAX_DIAS} dias (esta tem ${vigDias}). Ajuste o fim para até ${fmtDate(vigFimMax(it.inicio))} ${typeof isAdminUI === 'function' && isAdminUI() ? ' Para passar de ' + VIG_MAX_DIAS + ' dias, marque “Liberar mais de ' + VIG_MAX_DIAS + ' dias (Administração)”.' : ' ou peça à Administração.'}`;
     }
     if (isISODate(it.inicio) && it.inicio < today) fieldWarn.inicio = 'Início anterior a hoje.';
     if (isISODate(it.inicio) && it.inicio > max6) fieldWarn.inicio = 'Início posterior a seis meses a partir de hoje.';
@@ -4909,7 +4910,7 @@ function openQuickCond(itemId) {
     <button type="submit" hidden></button></form>`;
   const footer = `<button class="btn danger ghost-danger" id="qc-remove">Remover produto</button><span class="grow"></span><button class="btn" id="qc-later">${QC.fila.length ? 'Pular este sabor' : 'Preencher depois'}</button><button class="btn primary" id="qc-ok">${QC.fila.length ? 'Salvar e ir para o próximo sabor' : 'Salvar e escolher outro produto'}</button>`;
   openModal({ title: 'Preço e vigência', body, footer, onClose: () => { qcWrite(it); QC.fila = []; QC.total = 0; qcBack(it, false); } });
-  const dias = () => { if (!$('#qc-dias')) return; const n = daysInclusive($('#qc-inicio').value, $('#qc-fim').value); $('#qc-dias').textContent = n && n > 0 ? plural(n, 'dia') + (typeof VIG_MAX_DIAS !== 'undefined' && n > VIG_MAX_DIAS ? (isAdminUI() ? ` · acima de ${VIG_MAX_DIAS} dias (liberado para a Administração)` : ` · máximo ${VIG_MAX_DIAS} dias`) : '') : ''; $('#qc-dias').style.color = typeof VIG_MAX_DIAS !== 'undefined' && n > VIG_MAX_DIAS && !isAdminUI() ? 'var(--err)' : ''; $('#qc-fim').min = $('#qc-inicio').value || ''; };
+  const dias = () => { if (!$('#qc-dias')) return; const n = daysInclusive($('#qc-inicio').value, $('#qc-fim').value); $('#qc-dias').textContent = n && n > 0 ? plural(n, 'dia') + (typeof VIG_MAX_DIAS !== 'undefined' && n > VIG_MAX_DIAS ? (vigLivre() ? ` · acima de ${VIG_MAX_DIAS} dias (liberada pela Administração)` : ` · máximo ${VIG_MAX_DIAS} dias`) : '') : ''; $('#qc-dias').style.color = typeof VIG_MAX_DIAS !== 'undefined' && n > VIG_MAX_DIAS && !vigLivre() ? 'var(--err)' : ''; $('#qc-fim').min = $('#qc-inicio').value || ''; };
   const limpa = (f) => { const m = $('#qcm-' + f), w = $('#qcw-' + f); if (m && m.dataset.orig != null) m.innerHTML = m.dataset.orig; if (w) w.classList.remove('has-err'); };
   for (const f of ['ttc', 'reembolso', 'inicio', 'fim']) { const el = $('#qc-' + f); if (el) el.addEventListener('input', () => { limpa(f); if (f === 'inicio' || f === 'fim') { limpa('inicio'); limpa('fim'); qcReembSync(it, p); } dias(); }); }
   dias();
@@ -5734,7 +5735,7 @@ function vigFimMax(ini) { if (!isISODate(ini)) return ini; const d = new Date(in
     if (el.dataset && el.dataset.in === 'grp-field' && (m = id.match(/^(.*)-(inicio|fim)$/))) return [document.getElementById(m[1] + '-inicio'), document.getElementById(m[1] + '-fim')];
     return null;
   };
-  const livre = () => typeof isAdminUI === 'function' && isAdminUI();
+  const livre = () => typeof vigLivre === 'function' && vigLivre();
   const travar = (e) => {
     const el = e.target; if (!el || el.type !== 'date' || livre()) return;
     const pr = par(el); if (!pr || !pr[0] || !pr[1]) return; const [ini, fim] = pr;
@@ -5747,6 +5748,88 @@ function vigFimMax(ini) { if (!isISODate(ini)) return ini; const d = new Date(in
   };
   window.addEventListener('input', travar, true); window.addEventListener('change', travar, true);
   window.addEventListener('focusin', (e) => { const el = e.target; if (!el || el.type !== 'date' || livre()) return; const pr = par(el); if (pr && pr[0] && pr[1] && isISODate(pr[0].value)) pr[1].max = vigFimMax(pr[0].value); }, true);
+}
+
+/* Liberação explícita (só Administrador): "Liberar mais de 5 dias (Administração)" vale para a solicitação aberta.
+   Sem marcar, a trava de 5 dias vale para TODOS, inclusive Administrador. */
+function vigLivre(d) { d = d || S.draft; return typeof isAdminUI === 'function' && isAdminUI() && !!(d && d.meta && d.meta.vigLivre); }
+{
+  const caixa = (id) => `<label class="check vig-livre"><input type="checkbox" id="${id}" data-ch="vig-livre" ${S.draft.meta.vigLivre ? 'checked' : ''}><span><b>Liberar mais de ${VIG_MAX_DIAS} dias</b> (Administração) nesta solicitação</span></label>`;
+  const _oqc = openQuickCond;
+  openQuickCond = function (itemId) {
+    _oqc(itemId);
+    if (isAdminUI() && $('#qcw-fim') && !$('#qc-viglivre')) $('#qcw-fim').insertAdjacentHTML('beforeend', caixa('qc-viglivre'));
+  };
+  const _rf = renderFill;
+  renderFill = function () {
+    _rf.apply(this, arguments);
+    const ba = $('#bulk-apply'); if (isAdminUI() && ba && !$('#bulk-viglivre')) ba.parentElement.insertAdjacentHTML('afterend', `<div style="margin:6px 0 0">${caixa('bulk-viglivre')}</div>`);
+  };
+  CHANGES['vig-livre'] = (el) => {
+    if (!isAdminUI()) return;
+    if (el.checked) S.draft.meta.vigLivre = true; else delete S.draft.meta.vigLivre;
+    touchDraft(); toast(el.checked ? `Vigência acima de ${VIG_MAX_DIAS} dias liberada nesta solicitação.` : `Trava de ${VIG_MAX_DIAS} dias ativada de novo.`, el.checked ? 'warn' : 'ok');
+    if (el.id === 'bulk-viglivre') renderFill(); else { const f = $('#qc-fim'); if (f) { if (el.checked) f.removeAttribute('max'); f.dispatchEvent(new Event('input', { bubbles: true })); } }
+  };
+  const st2 = document.createElement('style'); st2.textContent = '.vig-livre{display:flex;gap:6px;align-items:center;font-size:12px;margin-top:6px;color:var(--warn)}'; document.head.appendChild(st2);
+}
+
+/* ===================== Trava: preço de unidade em item de CAIXA =====================
+   Se o item é CAIXA e o preço digitado parece de 1 unidade, abre um aviso e não deixa seguir.
+   Referência: menor TTV/TTC da tabela de reembolso × unidades da caixa; abaixo da metade disso = suspeito.
+   Sem referência na tabela: suspeito quando o preço dividido pelas unidades fica abaixo de R$ 1,00. */
+function precoCaixaSuspeito(p, cents) {
+  if (!p || p.tipo !== 'Caixa' || !(cents > 0)) return null;
+  const qtd = Number(qtdCaixaDe(p)); if (!(qtd > 1)) return null;
+  const g = reembDoProduto(p); const ex = (g && g.extras) || {};
+  const refs = Object.keys(ex).filter((k) => /^(TTV|TTC)/i.test(k)).map((k) => Number(ex[k])).filter((v) => v > 0);
+  const refUnit = refs.length ? Math.round(Math.min(...refs) * 100) : null;
+  const refCaixa = refUnit ? refUnit * qtd : null;
+  const susp = refCaixa ? cents < refCaixa * 0.5 : cents / qtd < 100;
+  if (!susp) return null;
+  return { qtd, refCaixa, msgCurta: `Item de CAIXA com ${qtd} unidades: ${fmtBRL(cents)} parece preço de 1 unidade. Informe o preço da caixa.` };
+}
+{
+  const _oqc = openQuickCond;
+  openQuickCond = function (itemId) { QC.atual = itemId; return _oqc.apply(this, arguments); };
+  const prodDoCampo = (el) => {
+    if (!el) return null;
+    if (el.id === 'qc-ttc') { const it = S.draft.items.find((i) => i.id === QC.atual); return it ? (IDX.produtos.get(it.productKey) || it.snap) : null; }
+    if (el.dataset.in === 'item-field') { const it = S.draft.items.find((i) => i.id === el.dataset.id); return it ? (IDX.produtos.get(it.productKey) || it.snap) : null; }
+    if (el.dataset.in === 'grp-field') { try { const g = priceGroups(st().ivs).find((x) => x.key === el.dataset.g); return g ? g.ivs[0].product : null; } catch (e) { return null; } }
+    return null;
+  };
+  const fechar = () => { const b = document.getElementById('cx-alert'); if (!b) return; const el = b._campo; b.remove(); if (el && document.body.contains(el)) { el.focus(); try { el.select(); } catch (e) { /* ok */ } } };
+  const avisar = (el, p, cents, cx) => {
+    if (document.getElementById('cx-alert')) return;
+    const b = document.createElement('div'); b.id = 'cx-alert'; b.className = 'cx-alert-bg'; b._campo = el;
+    b.innerHTML = `<div class="cx-alert" role="alertdialog" aria-modal="true" aria-labelledby="cx-t">
+      <div class="cx-ico">⚠</div><h3 id="cx-t">Preço em unidade para item de caixa</h3>
+      <p><b>${esc(p.descricao)}</b> é <b>CAIXA com ${cx.qtd} unidades</b>.<br>O preço ${fmtBRL(cents)} parece ser de <b>1 unidade</b>.</p>
+      <p>Corrija para o <b>preço da caixa</b>.</p>
+      <button type="button" class="btn primary" id="cx-ok">Corrigir</button></div>`;
+    document.body.appendChild(b); const ok = b.querySelector('#cx-ok'); ok.onclick = fechar; ok.focus();
+  };
+  const conferir = (el) => {
+    if (!el || !el.matches || !el.matches(PRECO_SEL) || el.readOnly) return false;
+    const r = parseMoneyCents(el.value); if (!r.ok || !(r.cents > 0)) return false;
+    const p = prodDoCampo(el); const cx = precoCaixaSuspeito(p, r.cents); if (!cx) return false;
+    avisar(el, p, r.cents, cx); return true;
+  };
+  window.addEventListener('change', (e) => { conferir(e.target); }, true);
+  window.addEventListener('click', (e) => { const t = e.target && e.target.closest && e.target.closest('#qc-ok'); if (t && conferir(document.getElementById('qc-ttc'))) { e.preventDefault(); e.stopImmediatePropagation(); } }, true);
+  window.addEventListener('submit', (e) => { if (e.target && e.target.id === 'qc-form' && conferir(document.getElementById('qc-ttc'))) { e.preventDefault(); e.stopImmediatePropagation(); } }, true);
+  window.addEventListener('keydown', (e) => {
+    if (!document.getElementById('cx-alert')) return;
+    if (e.key === 'Escape' || e.key === 'Enter') { e.preventDefault(); e.stopImmediatePropagation(); fechar(); }
+    else if (e.key === 'Tab') { e.preventDefault(); }
+  }, true);
+  const st3 = document.createElement('style');
+  st3.textContent = '.cx-alert-bg{position:fixed;inset:0;background:rgba(15,23,42,.45);display:flex;align-items:center;justify-content:center;z-index:100000}'
+    + '.cx-alert{background:#fff;border-radius:14px;max-width:380px;width:calc(100% - 32px);padding:20px 22px;text-align:center;box-shadow:0 12px 40px rgba(0,0,0,.3);border-top:5px solid #dc2626}'
+    + '.cx-alert h3{margin:4px 0 10px;color:#b91c1c;font-size:17px}.cx-alert p{margin:6px 0;font-size:14px;line-height:1.4;color:#1f2937}'
+    + '.cx-ico{font-size:30px;color:#dc2626}.cx-alert .btn{margin-top:12px;min-width:160px;display:inline-flex;align-items:center;justify-content:center;text-align:center}';
+  document.head.appendChild(st3);
 }
 
 init().catch((e) => { console.error(e); if (window.__diagShow) window.__diagShow(String(e && e.message || e)); });
