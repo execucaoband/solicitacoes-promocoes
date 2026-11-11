@@ -1923,7 +1923,7 @@ function compute() {
     const fieldWarn = {};
     const vigDias = !fieldErr.inicio && !fieldErr.fim ? daysInclusive(it.inicio, it.fim) : null;   // vigência máxima: 5 dias (a Administração pode passar)
     if (vigDias && typeof VIG_MAX_DIAS !== 'undefined' && vigDias > VIG_MAX_DIAS) {
-      if (typeof vigLivre === 'function' && vigLivre(D)) fieldWarn.fim = `Vigência de ${vigDias} dias (acima do limite de ${VIG_MAX_DIAS} — liberada pela Administração).`;
+      if (typeof vigLivre === 'function' && vigLivre(D)) fieldWarn.fim = `Vigência de ${vigDias} dias (Administração: sem limite de dias).`;
       else fieldErr.fim = `A vigência pode ter no máximo ${VIG_MAX_DIAS} dias (esta tem ${vigDias}). Ajuste o fim para até ${fmtDate(vigFimMax(it.inicio))} ${typeof isAdminUI === 'function' && isAdminUI() ? ' Para passar de ' + VIG_MAX_DIAS + ' dias, marque “Liberar mais de ' + VIG_MAX_DIAS + ' dias (Administração)”.' : ' ou peça à Administração.'}`;
     }
     if (isISODate(it.inicio) && it.inicio < today) fieldWarn.inicio = 'Início anterior a hoje.';
@@ -5752,18 +5752,18 @@ function vigFimMax(ini) { if (!isISODate(ini)) return ini; const d = new Date(in
 
 /* Liberação explícita (só Administrador): "Liberar mais de 5 dias (Administração)" vale para a solicitação aberta.
    Sem marcar, a trava de 5 dias vale para TODOS, inclusive Administrador. */
-function vigLivre(d) { d = d || S.draft; return typeof isAdminUI === 'function' && isAdminUI() && !!(d && d.meta && d.meta.vigLivre); }
+function vigLivre(d) { return typeof isAdminUI === 'function' && isAdminUI(); }   // 11/11: Administração livre, sem limite de dias
 {
   const caixa = (id) => `<label class="check vig-livre"><input type="checkbox" id="${id}" data-ch="vig-livre" ${S.draft.meta.vigLivre ? 'checked' : ''}><span><b>Liberar mais de ${VIG_MAX_DIAS} dias</b> (Administração) nesta solicitação</span></label>`;
   const _oqc = openQuickCond;
   openQuickCond = function (itemId) {
     _oqc(itemId);
-    if (isAdminUI() && $('#qcw-fim') && !$('#qc-viglivre')) $('#qcw-fim').insertAdjacentHTML('beforeend', caixa('qc-viglivre'));
+    if (false && isAdminUI() && $('#qcw-fim') && !$('#qc-viglivre')) $('#qcw-fim').insertAdjacentHTML('beforeend', caixa('qc-viglivre'));
   };
   const _rf = renderFill;
   renderFill = function () {
     _rf.apply(this, arguments);
-    const ba = $('#bulk-apply'); if (isAdminUI() && ba && !$('#bulk-viglivre')) ba.parentElement.insertAdjacentHTML('afterend', `<div style="margin:6px 0 0">${caixa('bulk-viglivre')}</div>`);
+    const ba = $('#bulk-apply'); if (false && isAdminUI() && ba && !$('#bulk-viglivre')) ba.parentElement.insertAdjacentHTML('afterend', `<div style="margin:6px 0 0">${caixa('bulk-viglivre')}</div>`);
   };
   CHANGES['vig-livre'] = (el) => {
     if (!isAdminUI()) return;
@@ -5816,8 +5816,7 @@ function precoCaixaSuspeito(p, cents) {
     const p = prodDoCampo(el); const cx = precoCaixaSuspeito(p, r.cents); if (!cx) return false;
     avisar(el, p, r.cents, cx); return true;
   };
-  window.addEventListener('change', (e) => { conferir(e.target); }, true);
-  window.addEventListener('click', (e) => { const t = e.target && e.target.closest && e.target.closest('#qc-ok'); if (t && conferir(document.getElementById('qc-ttc'))) { e.preventDefault(); e.stopImmediatePropagation(); } }, true);
+  window.addEventListener('click', (e) => { const t = e.target && e.target.closest && e.target.closest('#qc-ok, #qc-later'); if (t && conferir(document.getElementById('qc-ttc'))) { e.preventDefault(); e.stopImmediatePropagation(); } }, true);
   window.addEventListener('submit', (e) => { if (e.target && e.target.id === 'qc-form' && conferir(document.getElementById('qc-ttc'))) { e.preventDefault(); e.stopImmediatePropagation(); } }, true);
   window.addEventListener('keydown', (e) => {
     if (!document.getElementById('cx-alert')) return;
