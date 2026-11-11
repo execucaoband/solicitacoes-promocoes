@@ -5841,11 +5841,9 @@ function jrCarregando(on, passo) {
   if (!m) return;
   if (!o) {
     o = document.createElement('div'); o.id = 'jr-load'; o.className = 'jr-load'; o.setAttribute('role', 'status'); o.setAttribute('aria-live', 'polite');
-    o.innerHTML = '<div class="jr-spin" aria-hidden="true"></div><div class="jr-tit">Enviando ao Jira…</div><div class="jr-passo" id="jr-passo"></div><div class="jr-seg" id="jr-seg">Isso pode levar alguns segundos. Não feche esta janela.</div>';
-    m.style.position = 'relative'; m.appendChild(o); const t0 = Date.now();
-    o._t = setInterval(() => { const e = document.getElementById('jr-seg'); if (!e) return; const s = Math.floor((Date.now() - t0) / 1000); e.textContent = `${s} s · Isso pode levar alguns segundos. Não feche esta janela.`; }, 1000);
+    o.innerHTML = '<div class="jr-spin" aria-hidden="true"></div><div class="jr-tit">Enviando ao Jira…</div>';
+    m.style.position = 'relative'; m.appendChild(o);
   }
-  const ps = document.getElementById('jr-passo'); if (ps && passo) ps.textContent = passo;
 }
 {
   const st4 = document.createElement('style');
