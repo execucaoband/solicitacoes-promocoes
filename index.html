@@ -5105,7 +5105,7 @@ ACTIONS['tk-jira'] = async (el) => {
     const v = (id) => $('#' + id).value;
     const faltam = [['jr-resumo', 'Resumo'], ['jr-geo', 'GEO - Regional'], ['jr-canal', 'Canal'], ['jr-data', 'Data de início']].filter(([id]) => !normSpaces(v(id))).map(([, n]) => n);
     if (faltam.length) { $('#jr-msg').textContent = 'Preencha: ' + faltam.join(', ') + '.'; return; }
-    const b = $('#jr-ok'); b.disabled = true; b.textContent = 'Enviando ao Jira…'; $('#jr-msg').textContent = '';
+    const b = $('#jr-ok'); b.disabled = true; b.textContent = 'Enviando ao Jira…'; $('#jr-msg').textContent = ''; jrCarregando(true, 'Preparando o Excel…');
     const escolhas = { geo: v('jr-geo'), canal: v('jr-canal'), clienteBr: v('jr-cliente'), tipoPromocao: v('jr-tprom'), tipoSolicitacao: v('jr-tsol'), tipoAcao: v('jr-acao'), prioridade: v('jr-prio') };
     DB.set('jira-padrao', escolhas).catch(() => {});
     const campos = { summary: normSpaces(v('jr-resumo')), description: v('jr-desc'), [JIRA_CAMPO.dataInicio]: v('jr-data'), [JIRA_CAMPO.categoria]: v('jr-cat') };
@@ -5113,14 +5113,16 @@ ACTIONS['tk-jira'] = async (el) => {
     const marcar = $('#jr-atendido').checked && !$('#jr-atendido').disabled;
     try {
       const arq = await jiraArquivo(plan);
+      jrCarregando(true, 'Abrindo o chamado no Jira…');
       const r = await jiraChamar({ solicitacaoId: t.id, campos, arquivo: { nome: arq.nome, tipo: arq.tipo, base64: bytesToB64(arq.bytes) } });
       if (r.solicitacao) Object.assign(t, r.solicitacao);
+      if (marcar) jrCarregando(true, 'Marcando a solicitação como atendida…');
       if (marcar) await ticketUpdate(t, { status: 'atendido', atendidoEm: Date.now(), atendidoPor: nomeAtendente(), arquivos: arq.nomes }, `Enviado ao Jira ${r.key}`);
       else pollTickets();
       closeModal(true);
       openModal({ title: 'Chamado aberto no Jira', body: `<p>Chamado <b>${esc(r.key)}</b> aberto em Cadastro Promos Brasil${marcar ? ' e solicitação marcada como atendida' : ''}.</p>${r.compartilhado && r.compartilhado.length ? `<p class="small">Compartilhado com: <b>${esc(r.compartilhado.join(', '))}</b></p>` : ''}${(r.avisos || []).map((a) => `<div class="alert warn">${esc(a)}</div>`).join('')}${r.simulado ? jiraSimulacaoHtml(r.payload) : `<p><a class="btn primary" href="${esc(r.url)}" target="_blank" rel="noopener">Abrir ${esc(r.key)} no Jira</a></p>`}`, footer: '<button class="btn" data-act="modal-close">Fechar</button>' });
       renderAdmin();
-    } catch (e) { $('#jr-msg').textContent = e.message; b.disabled = false; b.textContent = 'Enviar ao Jira'; }
+    } catch (e) { jrCarregando(false); $('#jr-msg').textContent = e.message; b.disabled = false; b.textContent = 'Enviar ao Jira'; }
   };
 };
 
@@ -5829,6 +5831,30 @@ function precoCaixaSuspeito(p, cents) {
     + '.cx-alert h3{margin:4px 0 10px;color:#b91c1c;font-size:17px}.cx-alert p{margin:6px 0;font-size:14px;line-height:1.4;color:#1f2937}'
     + '.cx-ico{font-size:30px;color:#dc2626}.cx-alert .btn{margin-top:12px;min-width:160px;display:inline-flex;align-items:center;justify-content:center;text-align:center}';
   document.head.appendChild(st3);
+}
+
+/* ===================== Carregando no envio ao Jira =====================
+   Cobre o formulário com um aviso "Enviando ao Jira…", spinner, etapa atual e segundos passados. */
+function jrCarregando(on, passo) {
+  const m = document.querySelector('#modal-bg .modal'); let o = document.getElementById('jr-load');
+  if (!on) { if (o) { clearInterval(o._t); o.remove(); } return; }
+  if (!m) return;
+  if (!o) {
+    o = document.createElement('div'); o.id = 'jr-load'; o.className = 'jr-load'; o.setAttribute('role', 'status'); o.setAttribute('aria-live', 'polite');
+    o.innerHTML = '<div class="jr-spin" aria-hidden="true"></div><div class="jr-tit">Enviando ao Jira…</div><div class="jr-passo" id="jr-passo"></div><div class="jr-seg" id="jr-seg">Isso pode levar alguns segundos. Não feche esta janela.</div>';
+    m.style.position = 'relative'; m.appendChild(o); const t0 = Date.now();
+    o._t = setInterval(() => { const e = document.getElementById('jr-seg'); if (!e) return; const s = Math.floor((Date.now() - t0) / 1000); e.textContent = `${s} s · Isso pode levar alguns segundos. Não feche esta janela.`; }, 1000);
+  }
+  const ps = document.getElementById('jr-passo'); if (ps && passo) ps.textContent = passo;
+}
+{
+  const st4 = document.createElement('style');
+  st4.textContent = '.jr-load{position:absolute;inset:0;background:rgba(255,255,255,.92);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;z-index:5;border-radius:inherit;text-align:center;padding:20px}'
+    + '.jr-spin{width:46px;height:46px;border:5px solid #f3c4c6;border-top-color:#d7141e;border-radius:50%;animation:jrgira .8s linear infinite}'
+    + '.jr-tit{font-weight:700;font-size:18px;color:#b91c1c;margin-top:6px}.jr-passo{font-size:14px;color:#1f2937}.jr-seg{font-size:12px;color:#6b7280}'
+    + '@keyframes jrgira{to{transform:rotate(360deg)}}@media (prefers-reduced-motion:reduce){.jr-spin{animation-duration:2.4s}}';
+  document.head.appendChild(st4);
+  window.addEventListener('keydown', (e) => { if (e.key === 'Escape' && document.getElementById('jr-load')) { e.preventDefault(); e.stopImmediatePropagation(); } }, true);   // não fecha no meio do envio
 }
 
 init().catch((e) => { console.error(e); if (window.__diagShow) window.__diagShow(String(e && e.message || e)); });
